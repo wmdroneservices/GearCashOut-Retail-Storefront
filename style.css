@@ -20,3 +20,7 @@
 
 /* Category browser uses the same existing shop product-grid blocks. */
 .category-product-card{display:flex;text-decoration:none;color:var(--ink);cursor:pointer}.category-product-card:hover{transform:translateY(-2px);border-color:var(--orange)}.category-product-image{background:#fff;overflow:hidden}.category-product-image img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;padding:8px}.category-card-fallback{width:100%;height:100%;display:grid;place-items:center;background:linear-gradient(135deg,#f5f5f1,#e7e9e5);font-weight:800;color:#313834;text-align:center;padding:20px}.category-product-card .availability span{float:right}.category-product-card h2{margin-top:5px}
+
+
+/* Hierarchical browsing keeps the existing storefront card layout. */
+.hierarchy-card{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);cursor:pointer}.hierarchy-card:hover{transform:translateY(-2px);border-color:var(--orange)}.hierarchy-image{background:#fff;min-height:160px}.hierarchy-image img{width:100%;height:100%;min-height:160px;object-fit:contain;mix-blend-mode:multiply;padding:10px}.stock-price{font-size:1.05rem;font-weight:800;margin-top:auto;padding-top:16px}.catalogue-empty{grid-column:1/-1;padding:48px 24px;border:1px dashed var(--line);background:#fff;color:var(--muted);text-align:center}
