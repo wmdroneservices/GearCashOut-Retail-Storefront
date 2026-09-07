@@ -20,10 +20,20 @@ export const CATEGORY_HEROES={
 export const MANUFACTURER_HEROES={};
 export const MODEL_HEROES={};
 
+function manufacturerNameHero(category,manufacturer){
+  const safeBrand=String(manufacturer||"").trim();
+  const safeCategory=String(category||"Catalogue").trim();
+  if(!safeBrand) return null;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#ffffff"/><rect x="56" y="56" width="1088" height="688" rx="34" fill="#f4f4f0" stroke="#d8dad4" stroke-width="2"/><circle cx="600" cy="230" r="42" fill="#d9ff58"/><text x="600" y="415" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="76" font-weight="700" fill="#111412">${escapeXml(safeBrand)}</text><text x="600" y="500" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="700" letter-spacing="7" fill="#e76b36">${escapeXml(safeCategory.toUpperCase())}</text><text x="600" y="585" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" fill="#6d716d">BRAND HERO • IMAGE CURATION IN PROGRESS</text></svg>`;
+  return {image:"data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg),alt:safeBrand+" "+safeCategory+" brand hero",source:"generated-brand-hero"};
+}
+function escapeXml(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"}[c]));}
+
 export function imageFor({category="",manufacturer="",model=""}){
   const modelKey=[category,manufacturer,model].filter(Boolean).join(" | ");
   if(MODEL_HEROES[modelKey]) return MODEL_HEROES[modelKey];
   const manufacturerKey=[category,manufacturer].filter(Boolean).join(" | ");
   if(MANUFACTURER_HEROES[manufacturerKey]) return MANUFACTURER_HEROES[manufacturerKey];
+  if(manufacturer && !model) return manufacturerNameHero(category,manufacturer);
   return CATEGORY_HEROES[category]||null;
 }
