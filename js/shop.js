@@ -1,11 +1,12 @@
 import { createSupabaseClient } from "./supabase-client.js";
 import { STOREFRONT_KEY, PAGE_SIZE } from "./config.js";
+import { CATEGORY_HEROES } from "./category-heroes.js";
 
 const supabase = await createSupabaseClient();
 const params = new URLSearchParams(location.search);
 const state = {
   manufacturer: params.get("manufacturer") || "",
-  category: "",
+  category: params.get("category") || "",
   search: "",
   offset: 0,
   loading: false,
@@ -19,6 +20,10 @@ const searchInput = document.querySelector("#search-input");
 const productGrid = document.querySelector("#product-grid");
 const summary = document.querySelector("#result-summary");
 const loadMoreButton = document.querySelector("#load-more");
+const categoryHero = document.querySelector("#category-hero");
+const categoryHeroTitle = document.querySelector("#category-hero-title");
+const categoryHeroImage = document.querySelector("#category-hero-image");
+const categoryHeroDescription = document.querySelector("#category-hero-description");
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
@@ -41,6 +46,22 @@ function addCategories(rows) {
   const current = categorySelect.value;
   categorySelect.innerHTML = '<option value="">All categories</option>' + [...state.categories].sort().map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
   categorySelect.value = current;
+}
+
+function renderCategoryHero() {
+  const hero = CATEGORY_HEROES[state.category];
+  if (!hero) {
+    categoryHero.hidden = true;
+    categoryHeroImage.removeAttribute("src");
+    return;
+  }
+  categoryHeroTitle.textContent = state.category;
+  categoryHeroImage.src = hero.image;
+  categoryHeroImage.alt = hero.alt;
+  categoryHeroDescription.textContent = state.manufacturer
+    ? `Editorial category view for ${state.manufacturer} × ${state.category}.`
+    : `Editorial category view for ${state.category}.`;
+  categoryHero.hidden = false;
 }
 
 function renderRows(rows, append) {
@@ -87,6 +108,7 @@ async function loadProducts({ append=false }={}) {
   }
 
   addCategories(data);
+  renderCategoryHero();
   renderRows(data, append);
   state.offset += data.length;
   state.finished = data.length < PAGE_SIZE;
@@ -103,10 +125,12 @@ function resetAndLoad() {
 
 manufacturerSelect.addEventListener("change", () => {
   state.manufacturer = manufacturerSelect.value;
+  renderCategoryHero();
   resetAndLoad();
 });
 categorySelect.addEventListener("change", () => {
   state.category = categorySelect.value;
+  renderCategoryHero();
   resetAndLoad();
 });
 let searchTimer;
@@ -124,9 +148,11 @@ document.querySelector("#clear-filters").addEventListener("click", () => {
   manufacturerSelect.value = "";
   categorySelect.value = "";
   searchInput.value = "";
+  renderCategoryHero();
   resetAndLoad();
 });
 loadMoreButton.addEventListener("click", () => loadProducts({ append:true }));
 
 await loadManufacturers();
+renderCategoryHero();
 await loadProducts();
