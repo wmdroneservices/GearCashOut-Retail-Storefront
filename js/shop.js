@@ -18,7 +18,6 @@ const categoryHeroImage=document.querySelector("#category-hero-image");
 const categoryHeroDescription=document.querySelector("#category-hero-description");
 
 function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
-function escapeAttribute(value){return String(value??"").replace(/['"()\\]/g,"");}
 
 function imageKey(row){
  return [row.manufacturer,row.model,row.package_name,row.product_type,row.main_category||row.category].filter(Boolean).join(" ");
@@ -71,7 +70,7 @@ function renderRows(rows,append){
   const id="catalogue-image-"+(state.offset+i);
   const title=[row.manufacturer,row.model,row.package_name].filter(Boolean).join(" ");
   const availability=Number(row.available_units||0);
-  return `<article class="product-card" data-product='${escapeAttribute(JSON.stringify(row))}'>
+  return `<article class="product-card" data-product="${encodeURIComponent(JSON.stringify(row))}">
    <div class="product-image"><div class="image-loading">Finding product image…</div><img id="${id}" hidden loading="lazy"></div>
    <div class="product-meta">${escapeHtml(row.main_category||row.category||"Catalogue")}</div>
    <h2>${escapeHtml(title||"Unnamed product")}</h2>
@@ -81,7 +80,7 @@ function renderRows(rows,append){
  }).join("");
  productGrid.insertAdjacentHTML("beforeend",html);
  [...productGrid.querySelectorAll(".product-card")].slice(append?Math.max(0,productGrid.children.length-rows.length):0).forEach(card=>{
-   const row=JSON.parse(card.dataset.product);
+   const row=JSON.parse(decodeURIComponent(card.dataset.product));
    const img=card.querySelector("img");
    resolveImage(row,img).finally(()=>{card.querySelector(".image-loading")?.remove();img.hidden=!img.src;});
  });
