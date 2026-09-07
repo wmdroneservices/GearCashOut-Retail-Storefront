@@ -214,3 +214,10 @@ If no product-specific public image is resolved, the card remains in an explicit
 
 ### Next hardening
 Replace runtime public-media lookup with a curated approved image mapping/cache after the user reviews coverage and quality. This avoids unstable third-party lookup behaviour while preserving product relevance.
+
+
+## Image population fault and fix — 7 September 2026
+
+**First failure:** the product card stored row JSON in an HTML data attribute after stripping quotation marks. The subsequent `JSON.parse` therefore failed before the product-image resolver could make any lookup.
+
+**Minimal repair:** preserve the exact row JSON using URI encoding in the data attribute and decode it immediately before parsing. This changes only the image resolver handoff and does not alter catalogue, RPC, pricing, stock or sales logic.
