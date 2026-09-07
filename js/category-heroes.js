@@ -1,6 +1,14 @@
 // Category hero images are independent editorial stock imagery, not catalogue product photos.
 // First batch follows the first ten raw catalogue categories alphabetically.
 export const CATEGORY_HEROES = {
+  "Cameras": { image: "https://images.pexels.com/photos/32129263/pexels-photo-32129263.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Professional mirrorless camera on a white background" },
+  "Lenses": { image: "https://images.pexels.com/photos/34956921/pexels-photo-34956921.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Professional camera lens on a white background" },
+  "Drones": { image: "https://images.pexels.com/photos/4141056/pexels-photo-4141056.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Drone on a clean white background" },
+  "Camera Accessories": { image: "https://images.pexels.com/photos/32885747/pexels-photo-32885747.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Photography accessories on a white background" },
+  "Video Cameras": { image: "https://images.pexels.com/photos/14526284/pexels-photo-14526284.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Professional video camera on a clean background" },
+  "Action Cameras": { image: "https://images.pexels.com/photos/92723/pexels-photo-92723.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Action camera on a white background" },
+  "Audio": { image: "https://images.pexels.com/photos/12541646/pexels-photo-12541646.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Professional microphone on a clean background" },
+  "Power & Batteries": { image: "https://images.pexels.com/photos/6370386/pexels-photo-6370386.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Camera battery and equipment on a white surface" },
   "Accessory": {
     image: "https://images.pexels.com/photos/32885747/pexels-photo-32885747.jpeg?auto=compress&cs=tinysrgb&w=1600",
     source: "https://www.pexels.com/photo/sony-camera-and-accessories-on-white-background-32885747/",
