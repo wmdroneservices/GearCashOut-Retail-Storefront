@@ -1,6 +1,6 @@
 import { createSupabaseClient } from "./supabase-client.js";
 import { STOREFRONT_KEY } from "./config.js";
-import { CATEGORY_HEROES } from "./category-heroes.js";
+import { imageFor } from "./category-heroes.js";
 
 const supabase=await createSupabaseClient();
 const params=new URLSearchParams(location.search);
@@ -28,30 +28,21 @@ const categoryHeroImage=document.querySelector("#category-hero-image");
 const categoryHeroDescription=document.querySelector("#category-hero-description");
 
 function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
-function cardImage(id,alt){return '<div class="product-image hierarchy-image"><div class="image-loading">Finding relevant image…</div><img id="'+id+'" alt="'+escapeHtml(alt)+'" hidden loading="lazy"></div>';}
-function commonsUrl(query){return "https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(query)+"&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*";}
-
-async function resolveImage(query,img,fallback){
-  try{
-    if(fallback){img.src=fallback;img.hidden=false;img.closest(".product-image")?.classList.add("has-image");return;}
-    const json=await (await fetch(commonsUrl(query))).json();
-    const page=Object.values(json?.query?.pages||{})[0];
-    const url=page?.imageinfo?.[0]?.thumburl||page?.imageinfo?.[0]?.url;
-    if(url){img.src=url;img.hidden=false;img.closest(".product-image")?.classList.add("has-image");}
-  }catch(e){console.warn("Hero image lookup failed",query,e);}
-  finally{img.closest(".product-image")?.querySelector(".image-loading")?.remove();}
+function cardImage(id,alt,image=null){
+  if(!image?.image){
+    return '<div class="product-image hierarchy-image image-curation-pending"><div class="curation-label">IMAGE CURATION<br><span>Approved image pending</span></div></div>';
+  }
+  return '<div class="product-image hierarchy-image has-image"><img id="'+id+'" src="'+escapeHtml(image.image)+'" alt="'+escapeHtml(image.alt||alt)+'" loading="lazy"></div>';
 }
 
-function categoryHeroFor(category){return CATEGORY_HEROES[category]||null;}
-
-function setHero({title,description,query,fallback}){
-  categoryHero.hidden=false;
+function setHero({title,description,fallback}){
   categoryHeroTitle.textContent=title;
   categoryHeroDescription.textContent=description;
   categoryHeroImage.removeAttribute("src");
-  categoryHeroImage.alt=title;
-  if(fallback){categoryHeroImage.src=fallback;return;}
-  resolveImage(query,categoryHeroImage,null);
+  if(!fallback?.image){categoryHero.hidden=true;return;}
+  categoryHero.hidden=false;
+  categoryHeroImage.src=fallback.image;
+  categoryHeroImage.alt=fallback.alt||title;
 }
 
 function clearHero(){categoryHero.hidden=true;categoryHeroImage.removeAttribute("src");}
@@ -69,34 +60,24 @@ async function loadManufacturers(){
   manufacturerSelect.value=state.manufacturer;
 }
 
-function bindCardImages(items){
-  items.forEach(item=>{
-    const img=document.querySelector("#"+item.id);
-    if(img)resolveImage(item.query,img,item.fallback||null);
-  });
-}
-
 function renderCategories(){
   clearHero();
   resultsEyebrow.textContent="ALL EQUIPMENT";
   resultsTitle.textContent="Browse categories";
   summary.textContent="Choose the type of equipment you want to browse";
   loadMoreButton.hidden=true;
-  const imageJobs=[];
   productGrid.innerHTML=CATALOGUE_CATEGORIES.map((category,i)=>{
     const id="category-image-"+i,hero=categoryHeroFor(category);
-    imageJobs.push({id,query:category+" professional equipment product on white background",fallback:hero?.image});
     return '<a class="product-card hierarchy-card" href="shop.html?category='+encodeURIComponent(category)+'">'+
-      cardImage(id,hero?.alt||category)+
+      cardImage(id,hero?.alt||category,hero)+
       '<div class="product-meta">CATEGORY</div><h2>'+escapeHtml(category)+'</h2>'+
       '<div class="availability available">Browse '+escapeHtml(category)+' <span>→</span></div></a>';
   }).join("");
-  bindCardImages(imageJobs);
 }
 
 async function renderManufacturers(){
   const hero=categoryHeroFor(state.category);
-  setHero({title:state.category,description:"Choose a manufacturer to browse "+state.category.toLowerCase()+".",query:state.category+" professional equipment",fallback:hero?.image});
+  setHero({title:state.category,description:"Choose a manufacturer to browse "+state.category.toLowerCase()+".",fallback:hero});
   resultsEyebrow.textContent="CATEGORY";
   resultsTitle.textContent=state.category+" manufacturers";
   summary.textContent="Choose a manufacturer";
@@ -104,22 +85,19 @@ async function renderManufacturers(){
   productGrid.innerHTML='<div class="catalogue-loading">Loading manufacturers…</div>';
   const {data,error}=await supabase.rpc("public_storefront_category_manufacturers",{p_store_key:STOREFRONT_KEY,p_category:state.category});
   if(error){console.error(error);summary.textContent="Manufacturers could not be loaded.";return;}
-  const imageJobs=[];
   productGrid.innerHTML=data.map((row,i)=>{
     const id="manufacturer-image-"+i;
-    const query=[row.manufacturer,row.representative_model,state.category].filter(Boolean).join(" ");
-    imageJobs.push({id,query});
+    const hero=manufacturerHeroFor(state.category,row.manufacturer);
     return '<a class="product-card hierarchy-card" href="shop.html?category='+encodeURIComponent(state.category)+'&manufacturer='+encodeURIComponent(row.manufacturer)+'">'+
-      cardImage(id,row.manufacturer)+
+      cardImage(id,row.manufacturer,hero)+
       '<div class="product-meta">MANUFACTURER</div><h2>'+escapeHtml(row.manufacturer)+'</h2>'+
       '<div class="product-meta">'+escapeHtml(row.representative_model||state.category)+'</div>'+
       '<div class="availability available">Browse '+escapeHtml(row.manufacturer)+' <span>→</span></div></a>';
   }).join("");
-  bindCardImages(imageJobs);
 }
 
 async function renderModels(){
-  setHero({title:state.manufacturer+" "+state.category,description:"Choose a model. The next step shows the actual units currently in stock on this website.",query:state.manufacturer+" "+state.category});
+  setHero({title:state.manufacturer+" "+state.category,description:"Choose a model. The next step shows the actual units currently in stock on this website.",fallback:manufacturerHeroFor(state.category,state.manufacturer)});
   resultsEyebrow.textContent="MANUFACTURER";
   resultsTitle.textContent=state.manufacturer+" "+state.category;
   summary.textContent="Choose a model";
@@ -127,20 +105,18 @@ async function renderModels(){
   productGrid.innerHTML='<div class="catalogue-loading">Loading models…</div>';
   const {data,error}=await supabase.rpc("public_storefront_models",{p_store_key:STOREFRONT_KEY,p_category:state.category,p_manufacturer:state.manufacturer});
   if(error){console.error(error);summary.textContent="Models could not be loaded.";return;}
-  const imageJobs=[];
   productGrid.innerHTML=data.map((row,i)=>{
-    const id="model-image-"+i,query=state.manufacturer+" "+row.model;
-    imageJobs.push({id,query});
+    const id="model-image-"+i;
+    const hero=modelHeroFor(state.category,state.manufacturer,row.model);
     return '<a class="product-card hierarchy-card" href="shop.html?category='+encodeURIComponent(state.category)+'&manufacturer='+encodeURIComponent(state.manufacturer)+'&model='+encodeURIComponent(row.model)+'">'+
-      cardImage(id,query)+
+      cardImage(id,state.manufacturer+" "+row.model,hero)+
       '<div class="product-meta">MODEL</div><h2>'+escapeHtml(row.model)+'</h2>'+
       '<div class="availability available">View stock <span>→</span></div></a>';
   }).join("");
-  bindCardImages(imageJobs);
 }
 
 async function renderStock(){
-  setHero({title:state.manufacturer+" "+state.model,description:"These are the actual units currently published and available on this website.",query:state.manufacturer+" "+state.model});
+  setHero({title:state.manufacturer+" "+state.model,description:"These are the actual units currently published and available on this website.",fallback:modelHeroFor(state.category,state.manufacturer,state.model)});
   resultsEyebrow.textContent="IN STOCK";
   resultsTitle.textContent=state.manufacturer+" "+state.model;
   loadMoreButton.hidden=true;
@@ -153,19 +129,17 @@ async function renderStock(){
     return;
   }
   summary.textContent=data.length===1?"1 unit currently in stock":data.length+" units currently in stock";
-  const imageJobs=[];
   productGrid.innerHTML=data.map((row,i)=>{
-    const id="stock-image-"+i,query=row.manufacturer+" "+row.model;
-    imageJobs.push({id,query,fallback:row.hero_image_url});
+    const id="stock-image-"+i;
+    const hero=row.hero_image_url?{image:row.hero_image_url,alt:row.manufacturer+" "+row.model}:modelHeroFor(state.category,row.manufacturer,row.model);
     return '<article class="product-card stock-card">'+
-      cardImage(id,query)+
+      cardImage(id,state.manufacturer+" "+row.model,hero)+
       '<div class="product-meta">'+escapeHtml(row.condition_grade||"Used equipment")+'</div>'+
       '<h2>'+escapeHtml(row.listing_title||[row.manufacturer,row.model,row.package_name].filter(Boolean).join(" "))+'</h2>'+
       '<div class="product-meta">'+escapeHtml(row.package_name||"")+'</div>'+
       '<div class="stock-price">£'+Number(row.asking_price||0).toFixed(2)+'</div>'+
       '<div class="availability available">In stock</div></article>';
   }).join("");
-  bindCardImages(imageJobs);
 }
 
 async function renderSearch(){
@@ -176,11 +150,11 @@ async function renderSearch(){
   const {data,error}=await supabase.rpc("public_storefront_catalog",{p_store_key:STOREFRONT_KEY,p_manufacturer:state.manufacturer||null,p_category:state.category||null,p_search:state.search,p_limit:120,p_offset:0});
   if(error){summary.textContent="Catalogue could not be loaded.";return;}
   loadMoreButton.hidden=true;
-  const jobs=[];
   productGrid.innerHTML=data.map((row,i)=>{
-    const id="search-image-"+i,query=[row.manufacturer,row.model,row.package_name].filter(Boolean).join(" ");
-    jobs.push({id,query,fallback:row.hero_image_url});
-    return '<article class="product-card">'+cardImage(id,query)+'<div class="product-meta">'+escapeHtml(row.main_category||row.category||"Catalogue")+'</div><h2>'+escapeHtml([row.manufacturer,row.model,row.package_name].filter(Boolean).join(" "))+'</h2><div class="availability '+(Number(row.available_units)>0?"available":"unavailable")+'">'+(Number(row.available_units)>0?"Available for sale":"Catalogue item")+'</div></article>';
+    const id="search-image-"+i;
+    const query=[row.manufacturer,row.model,row.package_name].filter(Boolean).join(" ");
+    const hero=row.hero_image_url?{image:row.hero_image_url,alt:query}:modelHeroFor(row.main_category||row.category,row.manufacturer,row.model);
+    return '<article class="product-card">'+cardImage(id,state.manufacturer+" "+row.model,hero)+'<div class="product-meta">'+escapeHtml(row.main_category||row.category||"Catalogue")+'</div><h2>'+escapeHtml([row.manufacturer,row.model,row.package_name].filter(Boolean).join(" "))+'</h2><div class="availability '+(Number(row.available_units)>0?"available":"unavailable")+'">'+(Number(row.available_units)>0?"Available for sale":"Catalogue item")+'</div></article>';
   }).join("");
   summary.textContent=data.length+" matching catalogue products";
   bindCardImages(jobs);
