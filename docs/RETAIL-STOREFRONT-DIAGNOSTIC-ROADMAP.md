@@ -183,3 +183,20 @@ A separate review layer was created before wiring further imagery into live filt
 Batch 100 is **review-only**. It does not alter current live category hero mappings, catalogue records, Supabase data, pricing, inventory, visibility, or public RPCs.
 
 After approval, candidates move into the production mapping with separate entity scopes for manufacturer, category and product line, plus an explicit precedence rule for combined selections.
+
+
+## Corrected hero research methodology — 7 September 2026
+
+The original generic-image Batch 100 was rejected following review.
+
+### New mandatory sequence
+1. Query the actual catalogue entity.
+2. Identify a representative real product/model from that entity.
+3. Search manufacturer-specific or official imagery for that product family.
+4. Reject generic objects that merely resemble the category.
+5. Prefer a recognisable hero product on a clean white/light background.
+6. Avoid duplicates unless visually and semantically justified.
+7. Keep research manifest and final production mapping separate.
+
+### Corrected Batch 100
+A replacement Batch 100 now consists of 100 catalogue-derived manufacturer/category/product-line/model targets. It replaces the previous review methodology and is the source-of-truth queue for image selection.
