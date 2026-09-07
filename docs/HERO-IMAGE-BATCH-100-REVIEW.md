@@ -1,145 +1,121 @@
-# Hero Image Review — Batch 100
+# Corrected Hero Research — Batch 100
 
-**Status:** candidate review batch. Not yet applied to live category/manufacturer/product-line filtering.
+**Previous generic-image batch: rejected.**
 
-## Scope
+This replacement batch is generated from the live `quote_catalog_products` catalogue. Every row contains:
 
-- 50 catalogue categories
-- 25 manufacturers
-- 25 product lines
+- actual manufacturer;
+- actual category;
+- actual product line;
+- actual representative model from that catalogue group;
+- number of products in the underlying group;
+- official manufacturer domain where identified.
 
-All candidates were researched around the same visual rule:
+The required image-selection rule is now:
 
-- editorial/stock imagery rather than the catalogue product-card image;
-- white or near-white background wherever the source supports it;
-- object-led composition suitable for the storefront's block layout;
-- source page retained for every candidate.
+> **Do not choose a generic object because it resembles the category. Choose a strong, recognisable product image because that manufacturer/product/category is actually represented in our catalogue.**
 
-## Review page
+No new generic image has been applied to the live shop in this correction. The old review imagery is removed from the review workflow and replaced by catalogue-first research targets.
 
-Open:
+## 100 targets
 
-`hero-image-review.html`
-
-The page provides all 100 candidates as a searchable visual grid with direct source links.
-
-## Important review rule
-
-This batch is deliberately **not automatically activated** in the live shop. Approval should happen first because:
-
-1. some closely related entities intentionally share a strong visual candidate during the research stage;
-2. a manufacturer hero must eventually be brand-appropriate without simply duplicating a catalogue product image;
-3. the final live architecture needs separate precedence for manufacturer, category and product-line heroes.
-
-After review, approved candidates can be moved into the production mapping and wired to the appropriate filter combinations.
-
-## Batch composition
-
-### Categories 1–50
-
-1. Camcorder — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-2. Camera — DSLR camera with multiple lenses on white — https://www.pexels.com/photo/camera-on-white-background-15945023/
-3. Camera Accessories — Camera and accessories on white — https://www.pexels.com/photo/sony-camera-and-accessories-on-white-background-32885747/
-4. Camera Bag — Bags displayed on white — https://www.pexels.com/photo/bags-on-white-background-22434759/
-5. Camera Control Unit — Modern remote controller isolated on white — https://www.pexels.com/photo/modern-clicker-on-white-background-7772534/
-6. Camera Equipment — DSLR camera with multiple lenses on white — https://www.pexels.com/photo/camera-on-white-background-15945023/
-7. Camera Extension — Camera and accessories on white — https://www.pexels.com/photo/sony-camera-and-accessories-on-white-background-32885747/
-8. Camera Flash — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-9. Camera Media — Camera film roll on white — https://www.pexels.com/photo/camera-film-lying-on-white-back-13771816/
-10. Camera Monitor — Camera rig with external monitor on white — https://www.pexels.com/photo/close-up-of-camera-14526289/
-11. Camera Payload — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-12. Camera Rig — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-13. Camera Slider — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-14. Camera Supports — Professional camera on tripod against white — https://www.pexels.com/photo/professional-photo-camera-on-tripod-against-white-background-5653947/
-15. Cameras & Lenses — DSLR camera with multiple lenses on white — https://www.pexels.com/photo/camera-on-white-background-15945023/
-16. Card Reader — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-17. Cinema Camera — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-18. Cinema Lens Kits — Professional camera lens on plain white — https://www.pexels.com/photo/camera-lens-on-white-background-close-up-34956921/
-19. Cinema Lenses — Professional camera lens on plain white — https://www.pexels.com/photo/camera-lens-on-white-background-close-up-34956921/
-20. Continuous Lighting — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-21. Controller — Modern remote controller isolated on white — https://www.pexels.com/photo/modern-clicker-on-white-background-7772534/
-22. Dash Camera — Action camera on clean white — https://www.pexels.com/photo/kodak-pixpro-sp360-on-white-background-19297708/
-23. Deck/Recorder — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-24. Digital Cinema Camera — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-25. Digital Wireless Receiver — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-26. DJI Goggles — VR headset on white table — https://www.pexels.com/photo/close-up-of-virtual-reality-goggles-4523059/
-27. Drone — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-28. Drone Accessory — Drone and controller on white backdrop — https://www.pexels.com/photo/dji-mavic-series-drone-remote-controller-and-battery-19247750/
-29. Film Camera — Vintage film camera floating on white — https://www.pexels.com/photo/vintage-camera-on-white-background-4219113/
-30. Flash Accessories — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-31. Flexible RGB Light — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-32. FPV Equipment — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-33. Gimbal — High-tech gimbal in soft white studio — https://www.pexels.com/photo/a-camera-tripod-with-a-white-sheet-on-it-25312268/
-34. HDR Production Converter — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-35. IP Interface — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-36. Lens Accessories — Professional camera lens on plain white — https://www.pexels.com/photo/camera-lens-on-white-background-close-up-34956921/
-37. Lens Control — Professional camera lens on plain white — https://www.pexels.com/photo/camera-lens-on-white-background-close-up-34956921/
-38. Lens Mount — Professional camera lens on plain white — https://www.pexels.com/photo/camera-lens-on-white-background-close-up-34956921/
-39. Lenses — Professional camera lens on plain white — https://www.pexels.com/photo/camera-lens-on-white-background-close-up-34956921/
-40. LiDAR Payload — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-41. Lighting — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-42. Lighting Modifier — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-43. Lighting Support — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-44. Live Production Switcher — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-45. Master Setup Unit — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-46. Media/Network Unit — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-47. Memory Card — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-48. Module — Electronic devices on white backdrop — https://www.pexels.com/photo/electronic-devices-on-white-background-16888144/
-49. Monitor — Minimal white monitor setup — https://www.pexels.com/photo/white-computer-and-blank-screen-monitor-5185166/
-50. Monopod — Professional camera on tripod against white — https://www.pexels.com/photo/professional-photo-camera-on-tripod-against-white-background-5653947/
-
-### Manufacturers 51–75
-
-51. Sony — Professional mirrorless camera on white — https://www.pexels.com/photo/professional-mirrorless-camera-on-white-background-32129263/
-52. Nikon — Professional mirrorless camera on white — https://www.pexels.com/photo/professional-mirrorless-camera-on-white-background-32129263/
-53. NEEWER — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-54. DJI — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-55. Panasonic — DSLR camera with multiple lenses on white — https://www.pexels.com/photo/camera-on-white-background-15945023/
-56. Olympus/OM SYSTEM — Professional mirrorless camera on white — https://www.pexels.com/photo/professional-mirrorless-camera-on-white-background-32129263/
-57. Fujifilm — Professional mirrorless camera on white — https://www.pexels.com/photo/professional-mirrorless-camera-on-white-background-32129263/
-58. AKASO — Action camera on clean white — https://www.pexels.com/photo/kodak-pixpro-sp360-on-white-background-19297708/
-59. GoPro — Action camera on white — https://www.pexels.com/photo/sport-camera-on-white-background-92723/
-60. SJCAM — Action camera on clean white — https://www.pexels.com/photo/kodak-pixpro-sp360-on-white-background-19297708/
-61. Casio — DSLR camera with multiple lenses on white — https://www.pexels.com/photo/camera-on-white-background-15945023/
-62. Hubsan — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-63. PowerVision — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-64. Z CAM — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-65. Skydio — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-66. Parrot — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-67. Tamron — Professional camera lens on plain white — https://www.pexels.com/photo/camera-lens-on-white-background-close-up-34956921/
-68. Polaroid — Vintage film camera floating on white — https://www.pexels.com/photo/vintage-camera-on-white-background-4219113/
-69. RØDE — Studio microphone on clean white — https://www.pexels.com/photo/close-up-shot-of-a-microphone-12541646/
-70. RadioMaster — Modern remote controller isolated on white — https://www.pexels.com/photo/modern-clicker-on-white-background-7772534/
-71. Autel Robotics — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-72. CaddxFPV — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-73. Holy Stone — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-74. Atomos — Minimal white monitor setup — https://www.pexels.com/photo/white-computer-and-blank-screen-monitor-5185166/
-75. Bright Tangerine — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-
-### Product lines 76–100
-
-76. Action Camera Cage — Action camera on clean white — https://www.pexels.com/photo/kodak-pixpro-sp360-on-white-background-19297708/
-77. Action Cameras — Action camera on clean white — https://www.pexels.com/photo/kodak-pixpro-sp360-on-white-background-19297708/
-78. Audio Equipment — Studio microphone on clean white — https://www.pexels.com/photo/close-up-shot-of-a-microphone-12541646/
-79. Background Support — Photography studio with white backdrop — https://www.pexels.com/photo/photo-studio-set-up-7383648/
-80. Bags & Cases — Bags displayed on white — https://www.pexels.com/photo/bags-on-white-background-22434759/
-81. Batteries — Camera battery and equipment on white — https://www.pexels.com/photo/a-canon-camera-and-battery-on-a-white-surface-6370386/
-82. Battery Grip — Camera battery and equipment on white — https://www.pexels.com/photo/a-canon-camera-and-battery-on-a-white-surface-6370386/
-83. Boom Arms — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-84. Broadcast & Studio Cameras — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-85. C Stand — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-86. Cables — White USB cable on white background — https://www.pexels.com/photo/white-usb-cable-in-close-up-photography-12997240/
-87. Camcorders — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-88. Camera & Video Monitors — Camera rig with external monitor on white — https://www.pexels.com/photo/close-up-of-camera-14526289/
-89. Camera Accessories — Camera and accessories on white — https://www.pexels.com/photo/sony-camera-and-accessories-on-white-background-32885747/
-90. Camera Batteries — Camera battery and equipment on white — https://www.pexels.com/photo/a-canon-camera-and-battery-on-a-white-surface-6370386/
-91. Camera Cage — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-92. Camera Cages & Rigs — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-93. Camera Control Units — Modern remote controller isolated on white — https://www.pexels.com/photo/modern-clicker-on-white-background-7772534/
-94. Camera Drones — High-tech drone on minimal white background — https://www.pexels.com/photo/drone-on-white-background-4141056/
-95. Camera Flash — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-96. Camera Flashes & Strobes — Professional softbox lighting setup on white — https://www.pexels.com/photo/professional-studio-lighting-setup-on-white-background-28772534/
-97. Camera Lenses — Professional camera lens on plain white — https://www.pexels.com/photo/camera-lens-on-white-background-close-up-34956921/
-98. Camera Mounts — Professional camera on tripod against white — https://www.pexels.com/photo/professional-photo-camera-on-tripod-against-white-background-5653947/
-99. Camera Rig Accessory — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
-100. Camera Rigs & Support — Professional video camera rig on white — https://www.pexels.com/photo/camera-on-white-background-14526284/
+1. **Nikon** | Lenses | Photography Lenses | representative: **AF 28-70mm f/3.5-4.5** | 307 catalogue products | official domain: nikon.co.uk
+2. **Nikon** | Camera | Photography Cameras | representative: **COOLPIX 3100** | 205 catalogue products | official domain: nikon.co.uk
+3. **Sony** | Lenses | Photography Lenses | representative: **135mm F1.8 ZA Sonnar T*** | 171 catalogue products | official domain: sony.co.uk
+4. **DJI** | Drone | Camera Drones | representative: **Air 2** | 126 catalogue products | official domain: dji.com
+5. **Sony** | Camcorder | Camcorders | representative: **DSR-250** | 103 catalogue products | official domain: sony.co.uk
+6. **Sony** | Cinema Camera | Cinema Cameras | representative: **BRC-H800** | 93 catalogue products | official domain: sony.co.uk
+7. **NEEWER** | Lighting | Continuous Lighting | representative: **320cm Pro C Stand** | 88 catalogue products | official domain: neewer.com
+8. **Sony** | Camera | Photography Cameras | representative: **A300** | 88 catalogue products | official domain: sony.co.uk
+9. **Panasonic** | Camera | Photography Cameras | representative: **LUMIX FZ82D** | 80 catalogue products | official domain: panasonic.com
+10. **Olympus/OM SYSTEM** | Lenses | Photography Lenses | representative: **M.Zuiko Digital 14-42mm F3.5-5.6 II** | 73 catalogue products | official domain: omsystem.com
+11. **AKASO** | Action Camera | Action Cameras | representative: **AKASO 360** | 62 catalogue products | official domain: akaso.com
+12. **Fujifilm** | Camera | Photography Cameras | representative: **GFX 100 II** | 54 catalogue products | official domain: fujifilm-x.com
+13. **Sony** | Accessory | Camera Accessories | representative: **BC-QZ1 Charger** | 52 catalogue products | official domain: sony.co.uk
+14. **Tamron** | Lenses | Photography Lenses | representative: **100-400mm F/4.5-6.3 Di VC USD** | 51 catalogue products | official domain: tamron.com
+15. **GoPro** | Action Camera | Action Cameras | representative: **Fusion** | 50 catalogue products | official domain: gopro.com
+16. **Potensic** | Drone | Camera Drones | representative: **A20** | 49 catalogue products | official domain: potensic.com
+17. **Parrot** | Drone | Camera Drones | representative: **Anafi** | 47 catalogue products | official domain: parrot.com
+18. **Panasonic** | Lenses | Photography Lenses | representative: **Leica DG Nocticron 42.5mm f/1.2** | 46 catalogue products | official domain: panasonic.com
+19. **Skydio** | Drone | Camera Drones | representative: **2** | 46 catalogue products | official domain: skydio.com
+20. **Hubsan** | Drone | Camera Drones | representative: **ACE** | 45 catalogue products | official domain: hubsan.com
+21. **Polaroid** | Camera | Photography Cameras | representative: **600 Business Edition** | 41 catalogue products | official domain: polaroid.com
+22. **Bright Tangerine** | Camera Accessories | Camera Accessories | representative: **5in VIV Kit** | 39 catalogue products
+23. **Olympus/OM SYSTEM** | Camera | Photography Cameras | representative: **E-P7** | 39 catalogue products | official domain: omsystem.com
+24. **Holy Stone** | Drone | Camera Drones | representative: **H4831** | 37 catalogue products
+25. **Autel Robotics** | Drone | Camera Drones | representative: **Autel Alpha** | 36 catalogue products | official domain: autelrobotics.com
+26. **Pentax** | Lenses | Photography Lenses | representative: **HD PENTAX-D FA 21mm F2.4 ED Limited** | 36 catalogue products | official domain: pentax.com
+27. **RØDE** | Audio | Audio Equipment | representative: **Interview PRO** | 36 catalogue products | official domain: rode.com
+28. **Casio** | Camera | Photography Cameras | representative: **EX-10** | 34 catalogue products | official domain: casio.com
+29. **BetaFPV** | Drone | Camera Drones | representative: **Air65** | 33 catalogue products | official domain: betafpv.com
+30. **Atomos** | Video Equipment | General Video Equipment | representative: **A-Eye 4K-12X** | 32 catalogue products | official domain: atomos.com
+31. **Blackmagic Design** | Camera | Photography Cameras | representative: **Pocket Cinema Camera 6K** | 30 catalogue products | official domain: blackmagicdesign.com
+32. **PowerVision** | Accessory | Camera Accessories | representative: **PowerDolphin Bait Container** | 29 catalogue products
+33. **Shure** | Audio | Audio Equipment | representative: **BETA 52A** | 29 catalogue products | official domain: shure.com
+34. **Canon** | Camera | Photography Cameras | representative: **Cinema EOS C50** | 28 catalogue products | official domain: canon.co.uk
+35. **Pentax** | Camera | Photography Cameras | representative: **645Z** | 28 catalogue products | official domain: pentax.com
+36. **Walkera** | Drone | Camera Drones | representative: **AIBAO** | 28 catalogue products
+37. **Sennheiser** | Audio | Audio Equipment | representative: **ACCENTUM Plus** | 27 catalogue products | official domain: sennheiser.com
+38. **Sony** | Studio/Broadcast Camera | Broadcast & Studio Cameras | representative: **HDC-1550** | 26 catalogue products | official domain: sony.co.uk
+39. **Tilta** | Accessory | Camera Accessories | representative: **95mm Variable ND for Tilta Mirage** | 26 catalogue products | official domain: tilta.com
+40. **SJCAM** | Action Camera | Action Cameras | representative: **C100 Pro** | 25 catalogue products | official domain: sjcam.com
+41. **RED Digital Cinema** | Digital Cinema Camera | Cinema Cameras | representative: **DSMC2 DRAGON-X** | 24 catalogue products | official domain: red.com
+42. **Sigma** | Cameras & Lenses | Cameras & Lenses | representative: **10-18mm F2.8 DC DN** | 24 catalogue products | official domain: sigma-global.com
+43. **CaddxFPV** | Accessory | Camera Accessories | representative: **GM1 V2** | 22 catalogue products
+44. **NEEWER** | Tripods | Camera Tripods | representative: **GM001** | 22 catalogue products | official domain: neewer.com
+45. **Olympus/OM SYSTEM** | Camera Accessories | Camera Accessories | representative: **ECG-4 Grip For PEN-F** | 22 catalogue products | official domain: omsystem.com
+46. **RadioMaster** | Controller | Drone Controllers | representative: **AX12** | 22 catalogue products | official domain: radiomasterrc.com
+47. **Brinno** | Camera | Photography Cameras | representative: **BBT2000** | 21 catalogue products
+48. **Z CAM** | Camera | Photography Cameras | representative: **E2 Mark II** | 21 catalogue products
+49. **Billingham** | Camera Bag | Bags & Cases | representative: **Hadley Pro** | 20 catalogue products | official domain: billingham.co.uk
+50. **FIMI** | Drone | Camera Drones | representative: **A3** | 20 catalogue products
+51. **Benro** | Tripod/Support | Camera Supports | representative: **A373FBS6PRO** | 19 catalogue products | official domain: benro.com
+52. **Yuneec** | Drone | Camera Drones | representative: **Breeze 4K** | 19 catalogue products | official domain: yuneec.com
+53. **NEEWER** | Video Equipment | General Video Equipment | representative: **C12** | 17 catalogue products | official domain: neewer.com
+54. **Casio** | Action Camera | Action Cameras | representative: **EX-FR10** | 16 catalogue products | official domain: casio.com
+55. **SJCAM** | Accessory | Camera Accessories | representative: **External Mic SJ6/SJ7/SJ360** | 16 catalogue products | official domain: sjcam.com
+56. **DJI** | Accessory | Camera Accessories | representative: **Battery Charging Hub** | 15 catalogue products | official domain: dji.com
+57. **NEEWER** | Continuous Lighting | Continuous Lighting | representative: **BH20B** | 15 catalogue products | official domain: neewer.com
+58. **CaddxFPV** | Camera | Photography Cameras | representative: **Ant** | 14 catalogue products
+59. **DJI** | Action Camera | Action Cameras | representative: **Osmo 360** | 14 catalogue products | official domain: dji.com
+60. **DJI** | Controller | Drone Controllers | representative: **FPV Remote Controller** | 14 catalogue products | official domain: dji.com
+61. **NEEWER** | Batteries | Batteries | representative: **BP-2CH Pro** | 14 catalogue products | official domain: neewer.com
+62. **NEEWER** | Studio Lighting | Softbox | representative: **NS120P** | 14 catalogue products | official domain: neewer.com
+63. **Sony** | Studio Camera | Broadcast & Studio Cameras | representative: **BVP-500P** | 14 catalogue products | official domain: sony.co.uk
+64. **Fujifilm** | Lenses | Photography Lenses | representative: **GF100-200mmF5.6 R LM OIS WR** | 13 catalogue products | official domain: fujifilm-x.com
+65. **NEEWER** | Camera Flash | Camera Flashes & Strobes | representative: **Z2PRO Flash Kit** | 13 catalogue products | official domain: neewer.com
+66. **NEEWER** | Lighting Modifier | Softbox | representative: **45cm Quick Release Octagonal Softbox** | 13 catalogue products | official domain: neewer.com
+67. **Sony** | Camera Control Unit | Camera Control Units | representative: **CCU-355P** | 13 catalogue products | official domain: sony.co.uk
+68. **Sony** | PTZ Camera | PTZ Cameras | representative: **BRC-300** | 13 catalogue products | official domain: sony.co.uk
+69. **iFlight** | Drone | Camera Drones | representative: **BOB57 O4** | 12 catalogue products | official domain: iflight.com
+70. **Manfrotto** | Tripods | Camera Tripods | representative: **Befree Advanced Aluminium Twist Lock Tripod Kit** | 12 catalogue products | official domain: manfrotto.com
+71. **NEEWER** | Continuous Lighting | Continuous Lighting Kit | representative: **NL660 2 Pack** | 12 catalogue products | official domain: neewer.com
+72. **Potensic** | Accessory | Camera Accessories | representative: **ATOM 2 CPL Polarizer** | 12 catalogue products | official domain: potensic.com
+73. **RadioMaster** | Receiver | Wireless Audio Receivers | representative: **ER4** | 12 catalogue products | official domain: radiomasterrc.com
+74. **Insta360** | Action Camera | Action Cameras | representative: **Ace** | 11 catalogue products | official domain: insta360.com
+75. **Leica** | Camera | Photography Cameras | representative: **D-Lux 8** | 11 catalogue products | official domain: leica-camera.com
+76. **NEEWER** | Video Tripods | Video Tripods | representative: **LL27** | 11 catalogue products | official domain: neewer.com
+77. **RØDE** | Accessory | Camera Accessories | representative: **Charge Case** | 11 catalogue products | official domain: rode.com
+78. **Sigma** | Lenses | Photography Lenses | representative: **105mm F2.8 DG DN Macro Art** | 11 catalogue products | official domain: sigma-global.com
+79. **DJI** | Batteries | Batteries | representative: **Air 3 / Air 3S Intelligent Flight Battery** | 10 catalogue products | official domain: dji.com
+80. **Freefly** | Drone | Camera Drones | representative: **Alta 6** | 10 catalogue products | official domain: freeflysystems.com
+81. **NEEWER** | Audio | Microphones | representative: **KM15** | 10 catalogue products | official domain: neewer.com
+82. **PowerVision** | Drone | Camera Drones | representative: **PowerEgg** | 10 catalogue products
+83. **SJCAM** | Camera | Photography Cameras | representative: **C100** | 10 catalogue products | official domain: sjcam.com
+84. **Elinchrom** | Studio Lighting | Studio Lighting | representative: **D-Lite RX 4/4 Softbox To Go Set** | 9 catalogue products | official domain: elinchrom.com
+85. **NEEWER** | Continuous Lighting | Ring Lights | representative: **N32** | 9 catalogue products | official domain: neewer.com
+86. **Panasonic** | Accessory | Camera Accessories | representative: **Battery Charger** | 9 catalogue products | official domain: panasonic.com
+87. **Sony** | Monitor | Camera & Video Monitors | representative: **LMD-1751R** | 9 catalogue products | official domain: sony.co.uk
+88. **Sony** | Professional Audio | Professional Audio | representative: **DWM-01** | 9 catalogue products | official domain: sony.co.uk
+89. **NEEWER** | Camera Equipment | Phone Lenses | representative: **LS-28** | 8 catalogue products | official domain: neewer.com
+90. **NEEWER** | Camera Supports | Camera Mounts | representative: **CA065** | 8 catalogue products | official domain: neewer.com
+91. **NEEWER** | Studio Lighting | Light Stands | representative: **SC305B** | 8 catalogue products | official domain: neewer.com
+92. **Nikon** | Camera Accessories | Camera Accessories | representative: **EN-EL15c Rechargeable Li-ion Battery** | 8 catalogue products | official domain: nikon.co.uk
+93. **Yuneec** | Payload | Drone Payloads | representative: **CGO3+** | 8 catalogue products | official domain: yuneec.com
+94. **Brinno** | Camera Accessories | Camera Accessories | representative: **ACC1000P** | 7 catalogue products
+95. **DJI** | DJI Goggles | Drone Goggles | representative: **FPV Goggles V2** | 7 catalogue products | official domain: dji.com
+96. **DJI** | Gimbal | Gimbals & Stabilisers | representative: **DJI OM 4** | 7 catalogue products | official domain: dji.com
+97. **Manfrotto** | Tripod Head | Tripod Heads | representative: **500X Fluid Head** | 7 catalogue products | official domain: manfrotto.com
+98. **NEEWER** | Camera Equipment | Camera Mounts | representative: **CA013** | 7 catalogue products | official domain: neewer.com
+99. **NEEWER** | Camera Equipment | Tripod Heads | representative: **GM002** | 7 catalogue products | official domain: neewer.com
+100. **NEEWER** | Camera Rig | Camera Cages & Rigs | representative: **CA004** | 7 catalogue products | official domain: neewer.com
