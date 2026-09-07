@@ -124,3 +124,41 @@ The storefront now uses the established GearCashOut four-point compass visual la
 - temporary strapline: **QUALITY GEAR. READY FOR MORE.**
 
 This is presentation-only. No Supabase, catalogue, authentication, inventory, visibility or sales workflow was changed. The final brand and domain remain configurable.
+
+
+## Category hero imagery — first batch, 7 September 2026
+
+### Purpose
+When a visitor selects a supported category, including a combined manufacturer × category filter, the shop now shows an editorial category hero above the catalogue results.
+
+These images are separate from product-card imagery and do not alter catalogue records.
+
+### Current first batch
+The first ten raw catalogue categories alphabetically were mapped:
+
+1. Accessory
+2. Action Camera
+3. Action Camera Accessories
+4. Audio
+5. Bags & Cases
+6. Batteries
+7. Binocular Case
+8. Body Camera
+9. Broadcast Cameras
+10. Cable
+
+### Front-end path
+`shop.html` category hero container
+→ `js/category-heroes.js` category-to-editorial-image mapping
+→ `js/shop.js` `renderCategoryHero()`
+→ white-background block hero above results.
+
+### Rules
+- hero imagery is editorial stock imagery, not the catalogue product image;
+- no image URL is written into `quote_catalog_products`;
+- hero images do not affect manufacturer/category/product visibility;
+- white or near-white backgrounds are required so the image visually blends into the block layout;
+- image source/audit record: `docs/CATEGORY-HERO-IMAGE-SOURCES.md`.
+
+### Known first-batch refinement
+The Binocular Case and Body Camera entries currently use closest-match compact/optics imagery that satisfies the white-background visual rule; replace these with stronger exact-category stock imagery when found.
