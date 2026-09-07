@@ -3,68 +3,65 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Browse the complete GearCashOut catalogue by manufacturer, category or product search.">
+  <meta name="description" content="Browse the connected GearCashOut equipment catalogue by manufacturer, category or search.">
   <title>Shop | Retail Storefront</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="announcement-bar">DEVELOPMENT PREVIEW <span>•</span> CENTRAL CATALOGUE BROWSING</div>
   <header class="site-header">
     <a class="brand" href="index.html">
       <span class="brand-mark">G</span>
       <span><strong>Retail Storefront</strong><small>GearCashOut Platform</small></span>
     </a>
-    <nav>
+    <nav class="main-nav">
       <a href="index.html">Home</a>
-      <a href="shop.html" aria-current="page">Shop</a>
-      <button class="account-button" type="button">Account</button>
+      <a href="shop.html" aria-current="page">Shop all</a>
+      <button class="account-button" type="button">Account <span>↗</span></button>
     </nav>
   </header>
+
+  <section class="shop-hero">
+    <p class="eyebrow">CENTRAL CATALOGUE</p>
+    <h1>Find your next piece of gear.</h1>
+    <p>Browse the complete connected catalogue by brand, category or product.</p>
+  </section>
 
   <main class="shop-layout">
     <aside class="filters">
       <div class="filter-heading">
-        <h2>Browse</h2>
-        <button type="button" id="clear-filters">Clear</button>
+        <div><p class="eyebrow">FILTER</p><h2>Refine results</h2></div>
+        <button type="button" id="clear-filters">Reset</button>
       </div>
       <label>
-        Search catalogue
-        <input id="search-input" type="search" placeholder="DJI, Sony, Nikon…">
+        Search
+        <input id="search-input" type="search" placeholder="Try DJI, Sony, Nikon…">
       </label>
       <label>
         Manufacturer
-        <select id="manufacturer-select">
-          <option value="">All manufacturers</option>
-        </select>
+        <select id="manufacturer-select"><option value="">All manufacturers</option></select>
       </label>
       <label>
         Category
-        <select id="category-select">
-          <option value="">All categories</option>
-        </select>
+        <select id="category-select"><option value="">All categories</option></select>
       </label>
-      <p class="filter-note">Manufacturer visibility is centrally controlled. Hidden brands do not appear publicly.</p>
+      <div class="filter-note">Brands and products can be centrally hidden from public display without changing the master catalogue.</div>
     </aside>
 
     <section class="catalogue-results">
       <div class="results-header">
-        <div>
-          <p class="eyebrow">CENTRAL CATALOGUE</p>
-          <h1>Browse equipment</h1>
-        </div>
+        <div><p class="eyebrow">ALL EQUIPMENT</p><h1>Browse catalogue</h1></div>
         <p id="result-summary" aria-live="polite">Loading products…</p>
       </div>
-      <div id="product-grid" class="product-grid" aria-live="polite"></div>
-      <div class="load-more-wrap">
-        <button class="primary-button" type="button" id="load-more">Load more products</button>
-      </div>
+      <div id="product-grid" class="product-grid premium-product-grid" aria-live="polite"></div>
+      <div class="load-more-wrap"><button class="primary-button" type="button" id="load-more">Load more products <span>↓</span></button></div>
     </section>
   </main>
 
-  <footer>
-    <span>Retail Storefront — development build</span>
-    <span>Complete catalogue supplied from the central platform.</span>
+  <footer class="site-footer">
+    <div class="footer-brand"><span class="brand-mark">G</span><div><strong>Retail Storefront</strong><small>Temporary development identity</small></div></div>
+    <div class="footer-note">Complete catalogue supplied from the central GearCashOut platform.</div>
   </footer>
-
   <script type="module" src="js/shop.js"></script>
 </body>
 </html>
