@@ -76,3 +76,38 @@ The catalogue itself is not duplicated.
 - live product purchase flow;
 - checkout and order integration;
 - final brand/domain configuration.
+
+
+## Visual design pass — 7 September 2026
+
+The initial functional interface was replaced with a configurable premium storefront design.
+
+### Design principles
+- neutral temporary identity while final brand/domain remain undecided;
+- dark editorial hero with configurable lime/orange accent system;
+- premium specialist-equipment marketplace appearance;
+- responsive mobile layout;
+- large visual hierarchy rather than a generic admin/dashboard appearance.
+
+### Pages affected
+- `index.html`
+- `shop.html`
+- `style.css`
+
+### Behaviour preserved
+The visual pass does not alter:
+- shared Supabase backend;
+- public catalogue RPCs;
+- manufacturer visibility;
+- category visibility;
+- product visibility;
+- stock truth;
+- search/filter/pagination logic.
+
+### Next verification
+Open the deployed/preview website and verify:
+1. homepage visual hierarchy;
+2. mobile layout;
+3. catalogue loading;
+4. manufacturer navigation;
+5. product search and filters.
