@@ -200,3 +200,17 @@ The original generic-image Batch 100 was rejected following review.
 
 ### Corrected Batch 100
 A replacement Batch 100 now consists of 100 catalogue-derived manufacturer/category/product-line/model targets. It replaces the previous review methodology and is the source-of-truth queue for image selection.
+
+
+## Catalogue image population preview — 7 September 2026
+
+The public shop product grid now attempts product-specific imagery for each live catalogue row at render time. The image lookup is derived from the actual manufacturer + model + package/product context rather than a generic category image.
+
+### Data flow
+quote_catalog_products → public_storefront_catalog RPC → shop.js product identity → public-media image lookup → product card.
+
+### Guardrail
+If no product-specific public image is resolved, the card remains in an explicit pending state. The system must not silently substitute an unrelated generic object.
+
+### Next hardening
+Replace runtime public-media lookup with a curated approved image mapping/cache after the user reviews coverage and quality. This avoids unstable third-party lookup behaviour while preserving product relevance.
