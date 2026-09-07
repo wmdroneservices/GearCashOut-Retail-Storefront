@@ -162,3 +162,24 @@ The first ten raw catalogue categories alphabetically were mapped:
 
 ### Known first-batch refinement
 The Binocular Case and Body Camera entries currently use closest-match compact/optics imagery that satisfies the white-background visual rule; replace these with stronger exact-category stock imagery when found.
+
+
+## Hero imagery research review — Batch 100, 7 September 2026
+
+A separate review layer was created before wiring further imagery into live filters.
+
+### Scope
+- 50 categories;
+- 25 manufacturers;
+- 25 product lines.
+
+### Review path
+`hero-image-review.html`
+→ `js/hero-image-review.js`
+→ 100 researched stock/editorial candidate cards
+→ direct source-page links for approval.
+
+### Safety rule
+Batch 100 is **review-only**. It does not alter current live category hero mappings, catalogue records, Supabase data, pricing, inventory, visibility, or public RPCs.
+
+After approval, candidates move into the production mapping with separate entity scopes for manufacturer, category and product line, plus an explicit precedence rule for combined selections.
