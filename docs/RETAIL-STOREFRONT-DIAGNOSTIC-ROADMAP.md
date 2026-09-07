@@ -111,3 +111,16 @@ Open the deployed/preview website and verify:
 3. catalogue loading;
 4. manufacturer navigation;
 5. product search and filters.
+
+
+## Temporary GearOutlet identity — 7 September 2026
+
+The storefront now uses the established GearCashOut four-point compass visual language as a temporary retail-channel identity.
+
+- asset: `images/gearoutlet-brand.svg`;
+- temporary name: **GearOutlet**;
+- compass styling retained from the existing GearCashOut identity;
+- wordmark treatment: Gear + orange Outlet;
+- temporary strapline: **QUALITY GEAR. READY FOR MORE.**
+
+This is presentation-only. No Supabase, catalogue, authentication, inventory, visibility or sales workflow was changed. The final brand and domain remain configurable.
