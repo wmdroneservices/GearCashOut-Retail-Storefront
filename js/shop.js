@@ -35,6 +35,10 @@ function cardImage(id,alt,image=null){
   return '<div class="product-image hierarchy-image has-image"><img id="'+id+'" src="'+escapeHtml(image.image)+'" alt="'+escapeHtml(image.alt||alt)+'" loading="lazy"></div>';
 }
 
+function categoryHeroFor(category){return imageFor({category});}
+function manufacturerHeroFor(category,manufacturer){return imageFor({category,manufacturer});}
+function modelHeroFor(category,manufacturer,model){return imageFor({category,manufacturer,model});}
+
 function setHero({title,description,fallback}){
   categoryHeroTitle.textContent=title;
   categoryHeroDescription.textContent=description;
