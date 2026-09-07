@@ -3,62 +3,118 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Browse the complete GearCashOut equipment catalogue.">
+  <meta name="description" content="Browse cameras, drones, lenses and technology from the GearCashOut platform.">
   <title>Retail Storefront | GearCashOut Platform</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="home-page">
+  <div class="announcement-bar">DEVELOPMENT PREVIEW <span>•</span> ONE ACCOUNT ACROSS THE FUTURE GEARCASHOUT NETWORK</div>
+
   <header class="site-header">
-    <a class="brand" href="index.html">
+    <a class="brand" href="index.html" aria-label="Retail Storefront home">
       <span class="brand-mark">G</span>
       <span><strong data-store-name>Retail Storefront</strong><small>GearCashOut Platform</small></span>
     </a>
-    <nav>
-      <a href="#catalogue">Browse catalogue</a>
-      <a href="shop.html">Shop</a>
-      <button class="account-button" type="button" id="account-button">Account</button>
+    <nav class="main-nav">
+      <a href="#categories">Categories</a>
+      <a href="#brands">Brands</a>
+      <a href="shop.html">Shop all</a>
+      <button class="account-button" type="button">Account <span>↗</span></button>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <div>
-        <p class="eyebrow">COMING SALES PLATFORM</p>
-        <h1>One catalogue. One account. Multiple ways to buy and sell.</h1>
-        <p class="hero-copy">The public retail storefront is being built on the same central catalogue and inventory platform that powers GearCashOut.</p>
+    <section class="hero hero-premium">
+      <div class="hero-copy-wrap">
+        <p class="eyebrow light">THE FUTURE RETAIL CHANNEL</p>
+        <h1>Better gear.<br><em>Ready for its next chapter.</em></h1>
+        <p class="hero-copy">A new way to browse quality photography, drone and technology equipment from one connected platform.</p>
         <div class="hero-actions">
-          <a class="primary-button" href="shop.html">Browse all products</a>
-          <a class="secondary-button" href="#catalogue">Explore manufacturers</a>
+          <a class="primary-button" href="shop.html">Shop the catalogue <span>→</span></a>
+          <a class="text-link light" href="#brands">Browse by brand <span>↓</span></a>
         </div>
       </div>
-      <aside class="hero-panel">
-        <strong id="catalogue-count">Loading catalogue…</strong>
-        <span>products from the central catalogue</span>
-        <strong id="manufacturer-count">Loading…</strong>
-        <span>manufacturer brands available to browse</span>
-      </aside>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="hero-card hero-card-main">
+          <span class="visual-label">CONNECTED CATALOGUE</span>
+          <strong>Photography<br>& Drone Gear</strong>
+          <small>Built around one central product platform.</small>
+        </div>
+        <div class="hero-card hero-card-float">
+          <span class="mini-dot"></span>
+          <div><strong id="catalogue-count">Loading…</strong><small>catalogue products</small></div>
+        </div>
+      </div>
     </section>
 
-    <section id="catalogue" class="manufacturer-section">
-      <div class="section-heading">
+    <section id="categories" class="category-section">
+      <div class="section-intro">
         <div>
-          <p class="eyebrow">FULL CATALOGUE</p>
-          <h2>Browse by manufacturer</h2>
+          <p class="eyebrow">START EXPLORING</p>
+          <h2>Shop the gear you know.</h2>
         </div>
-        <a href="shop.html">Open full catalogue →</a>
+        <p>Designed to make a large specialist catalogue easier to browse now, and ready to grow into dedicated specialist stores later.</p>
       </div>
-      <div id="manufacturer-grid" class="manufacturer-grid" aria-live="polite"></div>
+
+      <div class="category-grid">
+        <a class="category-tile category-camera" href="shop.html?search=camera">
+          <span>01</span><h3>Cameras</h3><p>Mirrorless, DSLR and specialist imaging.</p><b>Explore →</b>
+        </a>
+        <a class="category-tile category-lens" href="shop.html?search=lens">
+          <span>02</span><h3>Lenses</h3><p>Photography and professional optics.</p><b>Explore →</b>
+        </a>
+        <a class="category-tile category-drone" href="shop.html?search=drone">
+          <span>03</span><h3>Drones</h3><p>Aerial equipment and accessories.</p><b>Explore →</b>
+        </a>
+        <a class="category-tile category-tech" href="shop.html">
+          <span>04</span><h3>More gear</h3><p>Browse the complete connected catalogue.</p><b>Explore →</b>
+        </a>
+      </div>
     </section>
 
-    <section class="platform-note">
-      <h2>Shared platform architecture</h2>
-      <p>Your future customer account is intended to work across the GearCashOut buying website, this retail storefront, and future specialist and auction websites.</p>
+    <section id="brands" class="brand-section">
+      <div class="section-heading premium-heading">
+        <div>
+          <p class="eyebrow">BRANDS</p>
+          <h2>Start with a manufacturer.</h2>
+        </div>
+        <div class="brand-stat"><strong id="manufacturer-count">…</strong><span>manufacturers currently indexed</span></div>
+      </div>
+      <div id="manufacturer-grid" class="manufacturer-grid premium-brand-grid" aria-live="polite"></div>
+      <div class="section-cta"><a class="secondary-button" href="shop.html">View complete catalogue →</a></div>
+    </section>
+
+    <section class="network-section">
+      <div class="network-copy">
+        <p class="eyebrow light">ONE CONNECTED PLATFORM</p>
+        <h2>Buy here.<br>Belong everywhere.</h2>
+      </div>
+      <div class="network-grid">
+        <div><span>01</span><h3>One account</h3><p>Your customer identity is designed to travel with you across future GearCashOut websites.</p></div>
+        <div><span>02</span><h3>One central system</h3><p>Catalogue, inventory and sales data remain connected rather than being copied between websites.</p></div>
+        <div><span>03</span><h3>More specialist stores</h3><p>The platform is being designed to support future specialist retail and auction channels.</p></div>
+      </div>
+    </section>
+
+    <section class="how-section">
+      <div>
+        <p class="eyebrow">THE RETAIL JOURNEY</p>
+        <h2>Simple on the surface.<br>Connected underneath.</h2>
+      </div>
+      <ol class="journey-list">
+        <li><span>01</span><div><h3>Browse</h3><p>Search the central catalogue by product, category or manufacturer.</p></div></li>
+        <li><span>02</span><div><h3>Discover</h3><p>See the equipment and specialist categories available across the platform.</p></div></li>
+        <li><span>03</span><div><h3>Buy</h3><p>Future live stock and checkout will connect directly into the central sales workflow.</p></div></li>
+      </ol>
     </section>
   </main>
 
-  <footer>
-    <span>Retail Storefront — temporary development identity</span>
-    <span>Brand and domain to be configured later.</span>
+  <footer class="site-footer">
+    <div class="footer-brand"><span class="brand-mark">G</span><div><strong>Retail Storefront</strong><small>Temporary development identity</small></div></div>
+    <div class="footer-note">Brand name and domain are intentionally configurable at this stage.</div>
   </footer>
 
   <script type="module" src="js/home.js"></script>
