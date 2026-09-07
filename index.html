@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Browse the complete GearCashOut equipment catalogue.">
+  <title>Retail Storefront | GearCashOut Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">G</span>
+      <span><strong data-store-name>Retail Storefront</strong><small>GearCashOut Platform</small></span>
+    </a>
+    <nav>
+      <a href="#catalogue">Browse catalogue</a>
+      <a href="shop.html">Shop</a>
+      <button class="account-button" type="button" id="account-button">Account</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">COMING SALES PLATFORM</p>
+        <h1>One catalogue. One account. Multiple ways to buy and sell.</h1>
+        <p class="hero-copy">The public retail storefront is being built on the same central catalogue and inventory platform that powers GearCashOut.</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="shop.html">Browse all products</a>
+          <a class="secondary-button" href="#catalogue">Explore manufacturers</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <strong id="catalogue-count">Loading catalogue…</strong>
+        <span>products from the central catalogue</span>
+        <strong id="manufacturer-count">Loading…</strong>
+        <span>manufacturer brands available to browse</span>
+      </aside>
+    </section>
+
+    <section id="catalogue" class="manufacturer-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">FULL CATALOGUE</p>
+          <h2>Browse by manufacturer</h2>
+        </div>
+        <a href="shop.html">Open full catalogue →</a>
+      </div>
+      <div id="manufacturer-grid" class="manufacturer-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="platform-note">
+      <h2>Shared platform architecture</h2>
+      <p>Your future customer account is intended to work across the GearCashOut buying website, this retail storefront, and future specialist and auction websites.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>Retail Storefront — temporary development identity</span>
+    <span>Brand and domain to be configured later.</span>
+  </footer>
+
+  <script type="module" src="js/home.js"></script>
+</body>
+</html>
