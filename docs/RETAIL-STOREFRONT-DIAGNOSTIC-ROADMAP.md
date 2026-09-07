@@ -1,0 +1,78 @@
+# Retail Storefront Developer Diagnostic Roadmap
+
+## Status
+Stage 1 foundation implemented 7 September 2026.
+
+## User action
+Public visitor opens the retail website, browses the complete central catalogue, filters by manufacturer/category/search, and sees whether a catalogue product currently has published website stock.
+
+## Front-end entry points
+- `index.html` → `js/home.js`
+- `shop.html` → `js/shop.js`
+- `js/config.js`
+- `js/supabase-client.js`
+
+## Catalogue path
+`quote_catalog_products`
+→ `public_storefront_manufacturers('retail')`
+→ public manufacturer selector
+
+`quote_catalog_products`
++ `catalog_sales_content`
++ `sales_catalog_visibility`
++ website `resale_listings`
++ `inventory_assets`
+→ `public_storefront_catalog('retail', ...)`
+→ public product cards.
+
+## Visibility controls
+The storefront uses the existing `sales_catalog_visibility` system.
+
+Scope types:
+- manufacturer
+- category
+- product
+
+Modes:
+- auto
+- show
+- hide
+
+Default state is `auto`, meaning all 73 current catalogue manufacturers are enabled unless management explicitly hides one.
+
+## Security boundary
+Public browser calls use only the Supabase publishable key.
+
+The public RPCs deliberately do not expose:
+- purchase prices;
+- internal notes;
+- customer data;
+- staff data;
+- market evidence;
+- service-role credentials.
+
+## Stock truth
+Public availability is calculated from:
+
+`resale_listings.status='Published'`
+→ `sales_outlets.outlet_code='WEBSITE'`
+→ linked `inventory_assets.catalog_product_id`
+
+The catalogue itself is not duplicated.
+
+## Failure checkpoints
+1. Confirm `sales_storefronts.store_key='retail'` is active.
+2. Confirm manufacturer is not hidden.
+3. Confirm catalogue product exists.
+4. Confirm public RPC works.
+5. Confirm browser uses publishable, never service-role, credentials.
+6. For stock availability, confirm published WEBSITE listing and unsold inventory asset.
+7. Never expose internal buying prices merely because the source catalogue contains them.
+
+## Next steps
+- product detail page;
+- management manufacturer/category visibility UI;
+- shared customer authentication UI;
+- live product purchase flow;
+- checkout and order integration;
+- final brand/domain configuration.
