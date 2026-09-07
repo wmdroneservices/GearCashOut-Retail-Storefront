@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hero Image Review — Batch 100</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="hero-review-page">
+<div class="announcement-bar">DEVELOPMENT REVIEW · BATCH 100 HERO IMAGE CANDIDATES · NOT YET APPLIED TO LIVE FILTERS</div>
+<header class="site-header">
+  <a class="brand brand-logo" href="index.html" aria-label="GearOutlet home"><img src="images/gearoutlet-brand.svg" alt="GearOutlet"></a>
+  <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="hero-image-review.html" aria-current="page">Hero review</a></nav>
+</header>
+<main>
+<section class="review-hero">
+  <p class="eyebrow">IMAGE RESEARCH REVIEW</p>
+  <h1>100 hero image candidates</h1>
+  <p>Research batch covering 50 catalogue categories, 25 manufacturers and 25 product lines. These are editorial stock-image candidates with white or near-white backgrounds. They are not yet wired into the live storefront filters.</p>
+  <div class="review-controls">
+    <input id="hero-review-search" type="search" placeholder="Search this batch">
+    <select id="hero-review-type"><option value="">All types</option><option>Category</option><option>Manufacturer</option><option>Product line</option></select>
+    <strong id="hero-review-count"></strong>
+  </div>
+</section>
+<section id="hero-review-grid" class="hero-review-grid"></section>
+</main>
+<script src="js/hero-image-review.js"></script>
+</body>
+</html>
