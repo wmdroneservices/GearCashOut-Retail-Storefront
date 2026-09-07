@@ -1,26 +1,216 @@
 import { createSupabaseClient } from "./supabase-client.js";
-import { STOREFRONT_KEY, PAGE_SIZE } from "./config.js";
+import { STOREFRONT_KEY } from "./config.js";
 import { CATEGORY_HEROES } from "./category-heroes.js";
-const supabase = await createSupabaseClient();
-const params = new URLSearchParams(location.search);
-const CATALOGUE_CATEGORIES=[["Cameras",726],["Lenses",731],["Drones",540],["Camera Accessories",405],["Video Cameras",293],["Lighting",199],["Action Cameras",182],["Video Production Equipment",156],["Audio",134],["Supports & Stabilisation",103],["Drone Accessories",65],["Power & Batteries",55],["Studio Equipment",11],["Other Equipment",33]];
-const state={manufacturer:params.get("manufacturer")||"",category:params.get("category")||"",search:params.get("search")||"",offset:0,loading:false,finished:false,mode:(params.get("manufacturer")||params.get("category")||params.get("search"))?"products":"categories"};
-const manufacturerSelect=document.querySelector("#manufacturer-select"),categorySelect=document.querySelector("#category-select"),searchInput=document.querySelector("#search-input"),productGrid=document.querySelector("#product-grid"),summary=document.querySelector("#result-summary"),loadMoreButton=document.querySelector("#load-more"),resultsEyebrow=document.querySelector("#results-eyebrow"),resultsTitle=document.querySelector("#results-title"),categoryHero=document.querySelector("#category-hero"),categoryHeroTitle=document.querySelector("#category-hero-title"),categoryHeroImage=document.querySelector("#category-hero-image"),categoryHeroDescription=document.querySelector("#category-hero-description");
+
+const supabase=await createSupabaseClient();
+const params=new URLSearchParams(location.search);
+
+const CATALOGUE_CATEGORIES=["Cameras","Lenses","Drones","Camera Accessories","Video Cameras","Lighting","Action Cameras","Video Production Equipment","Audio","Supports & Stabilisation","Drone Accessories","Power & Batteries","Studio Equipment","Other Equipment"];
+
+const state={
+  category:params.get("category")||"",
+  manufacturer:params.get("manufacturer")||"",
+  model:params.get("model")||"",
+  search:params.get("search")||""
+};
+
+const manufacturerSelect=document.querySelector("#manufacturer-select");
+const categorySelect=document.querySelector("#category-select");
+const searchInput=document.querySelector("#search-input");
+const productGrid=document.querySelector("#product-grid");
+const summary=document.querySelector("#result-summary");
+const loadMoreButton=document.querySelector("#load-more");
+const resultsEyebrow=document.querySelector("#results-eyebrow");
+const resultsTitle=document.querySelector("#results-title");
+const categoryHero=document.querySelector("#category-hero");
+const categoryHeroTitle=document.querySelector("#category-hero-title");
+const categoryHeroImage=document.querySelector("#category-hero-image");
+const categoryHeroDescription=document.querySelector("#category-hero-description");
+
 function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
-function heroFor(c){return CATEGORY_HEROES[c]||null;}
-function populateCategorySelect(){categorySelect.innerHTML='<option value="">All categories</option>'+CATALOGUE_CATEGORIES.map(([n])=>'<option value="'+escapeHtml(n)+'">'+escapeHtml(n)+'</option>').join("");categorySelect.value=state.category;}
-async function loadManufacturers(){const {data,error}=await supabase.rpc("public_storefront_manufacturers",{p_store_key:STOREFRONT_KEY});if(error)throw error;for(const r of data.filter(r=>r.visible))manufacturerSelect.insertAdjacentHTML("beforeend",'<option value="'+escapeHtml(r.manufacturer)+'">'+escapeHtml(r.manufacturer)+' ('+r.product_count+')</option>');manufacturerSelect.value=state.manufacturer;}
-function renderCategoryHero(){const h=heroFor(state.category);if(state.mode!=="products"||!h){categoryHero.hidden=true;return;}categoryHeroTitle.textContent=state.category;categoryHeroImage.src=h.image;categoryHeroImage.alt=h.alt;categoryHeroDescription.textContent=state.manufacturer?'Browse '+state.manufacturer+' products within '+state.category+'.':'Browse '+state.category+' from the connected catalogue.';categoryHero.hidden=false;}
-function renderCategoryBrowser(){state.mode="categories";categoryHero.hidden=true;resultsEyebrow.textContent="ALL EQUIPMENT";resultsTitle.textContent="Browse catalogue";summary.textContent="Choose a category to start";loadMoreButton.hidden=true;productGrid.innerHTML=CATALOGUE_CATEGORIES.map(([c,count])=>{const h=heroFor(c),image=h?'<img src="'+escapeHtml(h.image)+'" alt="'+escapeHtml(h.alt)+'" loading="lazy">':'<div class="category-card-fallback">'+escapeHtml(c)+'</div>';return '<a class="product-card category-product-card" href="shop.html?category='+encodeURIComponent(c)+'"><div class="product-image category-product-image">'+image+'</div><div class="product-meta">CATEGORY</div><h2>'+escapeHtml(c)+'</h2><div class="product-meta">'+Number(count).toLocaleString()+' catalogue products</div><div class="availability available">Browse '+escapeHtml(c)+' <span>→</span></div></a>';}).join("");}
-function imageKey(r){return[r.manufacturer,r.model,r.package_name,r.product_type,r.main_category||r.category].filter(Boolean).join(" ");}
-function productImageUrl(r){return "https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(imageKey(r))+"&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*";}
-async function resolveImage(r,img){try{const j=await (await fetch(productImageUrl(r))).json(),p=Object.values(j?.query?.pages||{})[0],u=p?.imageinfo?.[0]?.thumburl||p?.imageinfo?.[0]?.url;if(u){img.src=u;img.alt=imageKey(r);img.hidden=false;img.closest(".product-image").classList.add("has-image");}}catch(e){console.warn("Product image lookup failed",imageKey(r));}}
-function renderRows(rows,append){if(!append)productGrid.innerHTML="";const out=rows.map((r,i)=>{const id="catalogue-image-"+(state.offset+i),title=[r.manufacturer,r.model,r.package_name].filter(Boolean).join(" "),avail=Number(r.available_units||0);return '<article class="product-card" data-product="'+encodeURIComponent(JSON.stringify(r))+'"><div class="product-image"><div class="image-loading">Finding product image…</div><img id="'+id+'" hidden loading="lazy"></div><div class="product-meta">'+escapeHtml(r.main_category||r.category||"Catalogue")+'</div><h2>'+escapeHtml(title||"Unnamed product")+'</h2><div class="product-meta">'+escapeHtml(r.product_type||"")+'</div><div class="availability '+(avail>0?"available":"unavailable")+'">'+(avail>0?avail+' available for sale':"Catalogue item — availability pending")+'</div></article>';}).join("");productGrid.insertAdjacentHTML("beforeend",out);[...productGrid.querySelectorAll(".product-card")].slice(append?Math.max(0,productGrid.children.length-rows.length):0).forEach(card=>{const r=JSON.parse(decodeURIComponent(card.dataset.product)),img=card.querySelector("img");resolveImage(r,img).finally(()=>card.querySelector(".image-loading")?.remove());});}
-async function loadProducts({append=false}={}){state.mode="products";if(state.loading||(state.finished&&append))return;state.loading=true;loadMoreButton.disabled=true;resultsEyebrow.textContent=state.category?"CATEGORY":"ALL EQUIPMENT";resultsTitle.textContent=state.category||"Browse catalogue";summary.textContent="Loading products…";const {data,error}=await supabase.rpc("public_storefront_catalog",{p_store_key:STOREFRONT_KEY,p_manufacturer:state.manufacturer||null,p_category:state.category||null,p_search:state.search||null,p_limit:PAGE_SIZE,p_offset:state.offset});state.loading=false;if(error){summary.textContent="Catalogue could not be loaded.";loadMoreButton.disabled=false;return;}renderCategoryHero();renderRows(data,append);state.offset+=data.length;state.finished=data.length<PAGE_SIZE;summary.textContent=state.offset.toLocaleString()+" products loaded";loadMoreButton.hidden=state.finished;loadMoreButton.disabled=false;}
-function resetAndLoad(){state.offset=0;state.finished=false;state.mode="products";loadProducts();}
-manufacturerSelect.addEventListener("change",()=>{state.manufacturer=manufacturerSelect.value;if(!state.manufacturer&&!state.category&&!state.search){renderCategoryBrowser();return;}resetAndLoad();});
-categorySelect.addEventListener("change",()=>{state.category=categorySelect.value;if(!state.manufacturer&&!state.category&&!state.search){renderCategoryBrowser();return;}resetAndLoad();});
-let timer;searchInput.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(()=>{state.search=searchInput.value.trim();if(!state.manufacturer&&!state.category&&!state.search){renderCategoryBrowser();return;}resetAndLoad();},250);});
-document.querySelector("#clear-filters").addEventListener("click",()=>{state.manufacturer="";state.category="";state.search="";state.offset=0;state.finished=false;manufacturerSelect.value="";categorySelect.value="";searchInput.value="";renderCategoryBrowser();});
-loadMoreButton.addEventListener("click",()=>loadProducts({append:true}));
-await loadManufacturers();populateCategorySelect();searchInput.value=state.search;if(state.mode==="categories")renderCategoryBrowser();else await loadProducts();
+function cardImage(id,alt){return '<div class="product-image hierarchy-image"><div class="image-loading">Finding relevant image…</div><img id="'+id+'" alt="'+escapeHtml(alt)+'" hidden loading="lazy"></div>';}
+function commonsUrl(query){return "https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(query)+"&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*";}
+
+async function resolveImage(query,img,fallback){
+  try{
+    if(fallback){img.src=fallback;img.hidden=false;img.closest(".product-image")?.classList.add("has-image");return;}
+    const json=await (await fetch(commonsUrl(query))).json();
+    const page=Object.values(json?.query?.pages||{})[0];
+    const url=page?.imageinfo?.[0]?.thumburl||page?.imageinfo?.[0]?.url;
+    if(url){img.src=url;img.hidden=false;img.closest(".product-image")?.classList.add("has-image");}
+  }catch(e){console.warn("Hero image lookup failed",query,e);}
+  finally{img.closest(".product-image")?.querySelector(".image-loading")?.remove();}
+}
+
+function categoryHeroFor(category){return CATEGORY_HEROES[category]||null;}
+
+function setHero({title,description,query,fallback}){
+  categoryHero.hidden=false;
+  categoryHeroTitle.textContent=title;
+  categoryHeroDescription.textContent=description;
+  categoryHeroImage.removeAttribute("src");
+  categoryHeroImage.alt=title;
+  if(fallback){categoryHeroImage.src=fallback;return;}
+  resolveImage(query,categoryHeroImage,null);
+}
+
+function clearHero(){categoryHero.hidden=true;categoryHeroImage.removeAttribute("src");}
+
+function populateCategorySelect(){
+  categorySelect.innerHTML='<option value="">All categories</option>'+CATALOGUE_CATEGORIES.map(c=>'<option value="'+escapeHtml(c)+'">'+escapeHtml(c)+'</option>').join("");
+  categorySelect.value=state.category;
+}
+
+async function loadManufacturers(){
+  const {data,error}=await supabase.rpc("public_storefront_manufacturers",{p_store_key:STOREFRONT_KEY});
+  if(error) throw error;
+  manufacturerSelect.innerHTML='<option value="">All manufacturers</option>';
+  data.filter(r=>r.visible).forEach(r=>manufacturerSelect.insertAdjacentHTML("beforeend",'<option value="'+escapeHtml(r.manufacturer)+'">'+escapeHtml(r.manufacturer)+'</option>'));
+  manufacturerSelect.value=state.manufacturer;
+}
+
+function bindCardImages(items){
+  items.forEach(item=>{
+    const img=document.querySelector("#"+item.id);
+    if(img)resolveImage(item.query,img,item.fallback||null);
+  });
+}
+
+function renderCategories(){
+  clearHero();
+  resultsEyebrow.textContent="ALL EQUIPMENT";
+  resultsTitle.textContent="Browse categories";
+  summary.textContent="Choose the type of equipment you want to browse";
+  loadMoreButton.hidden=true;
+  const imageJobs=[];
+  productGrid.innerHTML=CATALOGUE_CATEGORIES.map((category,i)=>{
+    const id="category-image-"+i,hero=categoryHeroFor(category);
+    imageJobs.push({id,query:category+" professional equipment product on white background",fallback:hero?.image});
+    return '<a class="product-card hierarchy-card" href="shop.html?category='+encodeURIComponent(category)+'">'+
+      cardImage(id,hero?.alt||category)+
+      '<div class="product-meta">CATEGORY</div><h2>'+escapeHtml(category)+'</h2>'+
+      '<div class="availability available">Browse '+escapeHtml(category)+' <span>→</span></div></a>';
+  }).join("");
+  bindCardImages(imageJobs);
+}
+
+async function renderManufacturers(){
+  const hero=categoryHeroFor(state.category);
+  setHero({title:state.category,description:"Choose a manufacturer to browse "+state.category.toLowerCase()+".",query:state.category+" professional equipment",fallback:hero?.image});
+  resultsEyebrow.textContent="CATEGORY";
+  resultsTitle.textContent=state.category+" manufacturers";
+  summary.textContent="Choose a manufacturer";
+  loadMoreButton.hidden=true;
+  productGrid.innerHTML='<div class="catalogue-loading">Loading manufacturers…</div>';
+  const {data,error}=await supabase.rpc("public_storefront_category_manufacturers",{p_store_key:STOREFRONT_KEY,p_category:state.category});
+  if(error){console.error(error);summary.textContent="Manufacturers could not be loaded.";return;}
+  const imageJobs=[];
+  productGrid.innerHTML=data.map((row,i)=>{
+    const id="manufacturer-image-"+i;
+    const query=[row.manufacturer,row.representative_model,state.category].filter(Boolean).join(" ");
+    imageJobs.push({id,query});
+    return '<a class="product-card hierarchy-card" href="shop.html?category='+encodeURIComponent(state.category)+'&manufacturer='+encodeURIComponent(row.manufacturer)+'">'+
+      cardImage(id,row.manufacturer)+
+      '<div class="product-meta">MANUFACTURER</div><h2>'+escapeHtml(row.manufacturer)+'</h2>'+
+      '<div class="product-meta">'+escapeHtml(row.representative_model||state.category)+'</div>'+
+      '<div class="availability available">Browse '+escapeHtml(row.manufacturer)+' <span>→</span></div></a>';
+  }).join("");
+  bindCardImages(imageJobs);
+}
+
+async function renderModels(){
+  setHero({title:state.manufacturer+" "+state.category,description:"Choose a model. The next step shows the actual units currently in stock on this website.",query:state.manufacturer+" "+state.category});
+  resultsEyebrow.textContent="MANUFACTURER";
+  resultsTitle.textContent=state.manufacturer+" "+state.category;
+  summary.textContent="Choose a model";
+  loadMoreButton.hidden=true;
+  productGrid.innerHTML='<div class="catalogue-loading">Loading models…</div>';
+  const {data,error}=await supabase.rpc("public_storefront_models",{p_store_key:STOREFRONT_KEY,p_category:state.category,p_manufacturer:state.manufacturer});
+  if(error){console.error(error);summary.textContent="Models could not be loaded.";return;}
+  const imageJobs=[];
+  productGrid.innerHTML=data.map((row,i)=>{
+    const id="model-image-"+i,query=state.manufacturer+" "+row.model;
+    imageJobs.push({id,query});
+    return '<a class="product-card hierarchy-card" href="shop.html?category='+encodeURIComponent(state.category)+'&manufacturer='+encodeURIComponent(state.manufacturer)+'&model='+encodeURIComponent(row.model)+'">'+
+      cardImage(id,query)+
+      '<div class="product-meta">MODEL</div><h2>'+escapeHtml(row.model)+'</h2>'+
+      '<div class="availability available">View stock <span>→</span></div></a>';
+  }).join("");
+  bindCardImages(imageJobs);
+}
+
+async function renderStock(){
+  setHero({title:state.manufacturer+" "+state.model,description:"These are the actual units currently published and available on this website.",query:state.manufacturer+" "+state.model});
+  resultsEyebrow.textContent="IN STOCK";
+  resultsTitle.textContent=state.manufacturer+" "+state.model;
+  loadMoreButton.hidden=true;
+  productGrid.innerHTML='<div class="catalogue-loading">Checking live stock…</div>';
+  const {data,error}=await supabase.rpc("public_storefront_stock",{p_store_key:STOREFRONT_KEY,p_category:state.category,p_manufacturer:state.manufacturer,p_model:state.model});
+  if(error){console.error(error);summary.textContent="Stock could not be loaded.";return;}
+  if(!data.length){
+    summary.textContent="No units are currently published for sale.";
+    productGrid.innerHTML='<div class="catalogue-empty">There are currently no '+escapeHtml(state.manufacturer+" "+state.model)+' units published for sale on this website.</div>';
+    return;
+  }
+  summary.textContent=data.length===1?"1 unit currently in stock":data.length+" units currently in stock";
+  const imageJobs=[];
+  productGrid.innerHTML=data.map((row,i)=>{
+    const id="stock-image-"+i,query=row.manufacturer+" "+row.model;
+    imageJobs.push({id,query,fallback:row.hero_image_url});
+    return '<article class="product-card stock-card">'+
+      cardImage(id,query)+
+      '<div class="product-meta">'+escapeHtml(row.condition_grade||"Used equipment")+'</div>'+
+      '<h2>'+escapeHtml(row.listing_title||[row.manufacturer,row.model,row.package_name].filter(Boolean).join(" "))+'</h2>'+
+      '<div class="product-meta">'+escapeHtml(row.package_name||"")+'</div>'+
+      '<div class="stock-price">£'+Number(row.asking_price||0).toFixed(2)+'</div>'+
+      '<div class="availability available">In stock</div></article>';
+  }).join("");
+  bindCardImages(imageJobs);
+}
+
+async function renderSearch(){
+  clearHero();
+  resultsEyebrow.textContent="SEARCH";
+  resultsTitle.textContent="Search results";
+  summary.textContent="Loading products…";
+  const {data,error}=await supabase.rpc("public_storefront_catalog",{p_store_key:STOREFRONT_KEY,p_manufacturer:state.manufacturer||null,p_category:state.category||null,p_search:state.search,p_limit:120,p_offset:0});
+  if(error){summary.textContent="Catalogue could not be loaded.";return;}
+  loadMoreButton.hidden=true;
+  const jobs=[];
+  productGrid.innerHTML=data.map((row,i)=>{
+    const id="search-image-"+i,query=[row.manufacturer,row.model,row.package_name].filter(Boolean).join(" ");
+    jobs.push({id,query,fallback:row.hero_image_url});
+    return '<article class="product-card">'+cardImage(id,query)+'<div class="product-meta">'+escapeHtml(row.main_category||row.category||"Catalogue")+'</div><h2>'+escapeHtml([row.manufacturer,row.model,row.package_name].filter(Boolean).join(" "))+'</h2><div class="availability '+(Number(row.available_units)>0?"available":"unavailable")+'">'+(Number(row.available_units)>0?"Available for sale":"Catalogue item")+'</div></article>';
+  }).join("");
+  summary.textContent=data.length+" matching catalogue products";
+  bindCardImages(jobs);
+}
+
+function render(){
+  if(state.search){renderSearch();return;}
+  if(!state.category){renderCategories();return;}
+  if(!state.manufacturer){renderManufacturers();return;}
+  if(!state.model){renderModels();return;}
+  renderStock();
+}
+
+function navigate(){
+  const q=new URLSearchParams();
+  if(state.category)q.set("category",state.category);
+  if(state.manufacturer)q.set("manufacturer",state.manufacturer);
+  if(state.model)q.set("model",state.model);
+  if(state.search)q.set("search",state.search);
+  location.href="shop.html"+(q.toString()?"?"+q.toString():"");
+}
+
+manufacturerSelect.addEventListener("change",()=>{state.manufacturer=manufacturerSelect.value;state.model="";navigate();});
+categorySelect.addEventListener("change",()=>{state.category=categorySelect.value;state.manufacturer="";state.model="";navigate();});
+let timer;
+searchInput.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(()=>{state.search=searchInput.value.trim();navigate();},350);});
+document.querySelector("#clear-filters").addEventListener("click",()=>{state.category="";state.manufacturer="";state.model="";state.search="";navigate();});
+loadMoreButton.hidden=true;
+
+await loadManufacturers();
+populateCategorySelect();
+searchInput.value=state.search;
+render();
