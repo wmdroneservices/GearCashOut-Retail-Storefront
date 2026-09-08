@@ -1,5 +1,5 @@
 import { createSupabaseClient } from "./supabase-client.js";
-import { STOREFRONT_KEY } from "./config.js";
+import { STOREFRONT_KEY, SUPABASE_URL } from "./config.js";
 import { imageFor } from "./category-heroes.js";
 
 const supabase=await createSupabaseClient();
@@ -119,6 +119,29 @@ async function renderModels(){
   }).join("");
 }
 
+async function loadStockImages(rows){
+  await Promise.all(rows.map(async(row,i)=>{
+    const target=document.querySelector("#stock-media-"+i);
+    if(!target) return;
+    try{
+      const response=await fetch(SUPABASE_URL+"/functions/v1/public-listing-media?listing_id="+encodeURIComponent(row.listing_id));
+      if(!response.ok) throw new Error("Media request failed");
+      const payload=await response.json();
+      const first=payload?.images?.[0]?.url||row.hero_image_url||null;
+      if(!first){
+        target.innerHTML='<div class="curation-label">LISTING PHOTOS<br><span>No public photo available</span></div>';
+        return;
+      }
+      target.classList.remove("image-curation-pending");
+      target.classList.add("has-image");
+      target.innerHTML='<img src="'+escapeHtml(first)+'" alt="'+escapeHtml(row.listing_title||[row.manufacturer,row.model].filter(Boolean).join(" "))+'">';
+    }catch(error){
+      console.error(error);
+      target.innerHTML='<div class="curation-label">LISTING PHOTOS<br><span>Photo unavailable</span></div>';
+    }
+  }));
+}
+
 async function renderStock(){
   setHero({title:state.manufacturer+" "+state.model,description:"These are the actual units currently published and available on this website.",fallback:modelHeroFor(state.category,state.manufacturer,state.model)});
   resultsEyebrow.textContent="IN STOCK";
@@ -134,16 +157,16 @@ async function renderStock(){
   }
   summary.textContent=data.length===1?"1 unit currently in stock":data.length+" units currently in stock";
   productGrid.innerHTML=data.map((row,i)=>{
-    const id="stock-image-"+i;
-    const hero=row.hero_image_url?{image:row.hero_image_url,alt:row.manufacturer+" "+row.model}:modelHeroFor(state.category,row.manufacturer,row.model);
-    return '<article class="product-card stock-card">'+
-      cardImage(id,state.manufacturer+" "+row.model,hero)+
+    const title=row.listing_title||[row.manufacturer,row.model,row.package_name].filter(Boolean).join(" ");
+    return '<a class="product-card stock-card" href="product.html?listing='+encodeURIComponent(row.listing_id)+'">'+
+      '<div id="stock-media-'+i+'" class="product-image hierarchy-image image-curation-pending"><div class="curation-label">LISTING PHOTOS<br><span>Loading…</span></div></div>'+
       '<div class="product-meta">'+escapeHtml(row.condition_grade||"Used equipment")+'</div>'+
-      '<h2>'+escapeHtml(row.listing_title||[row.manufacturer,row.model,row.package_name].filter(Boolean).join(" "))+'</h2>'+
+      '<h2>'+escapeHtml(title)+'</h2>'+
       '<div class="product-meta">'+escapeHtml(row.package_name||"")+'</div>'+
       '<div class="stock-price">£'+Number(row.asking_price||0).toFixed(2)+'</div>'+
-      '<div class="availability available">In stock</div></article>';
+      '<div class="availability available">View product <span>→</span></div></a>';
   }).join("");
+  void loadStockImages(data);
 }
 
 async function renderSearch(){
