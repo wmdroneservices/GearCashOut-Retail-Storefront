@@ -348,3 +348,65 @@ The private customer-media bucket is not made public. The Edge Function checks t
 2. Card not clickable: inspect `renderStock()` in `js/shop.js`.
 3. Detail unavailable: inspect listing ID and `public_storefront_listing`.
 4. Sold/unpublished item visible: inspect authoritative `resale_listings`/asset state before changing the public UI.
+
+
+---
+
+## Purchase Catalogue → Sales Category Routing Audit — 9 September 2026
+
+### First failure found
+
+The retail website had a hard-coded list of 14 categories, while the live purchase catalogue contained additional historical/imported main-category variants. Those products remained searchable, but some had no category-card route in the Category → Manufacturer → Model journey.
+
+### Live audit
+
+- central catalogue: **3,845 products**;
+- 3,837 active products;
+- 3,826 customer-visible products;
+- no category/manufacturer/product visibility records were hiding catalogue rows at audit time;
+- live sales/inventory assets in the sales workflow all had a `catalog_product_id` link;
+- one Published WEBSITE listing was correctly linked to its inventory asset and catalogue product.
+
+The omitted navigation variants included Camera Equipment, Continuous Lighting, Studio Lighting, Camera Supports, Camera Rig, Audio & Video, Lighting Modifier, Photography Lighting & Studio, Lighting Support, Camera & Video, Camera Flash, Video Equipment, Tripod/Support, Optics, Tripods, Action Camera Accessories, Professional Audio, Phone Photography, Drone and Lens Accessories.
+
+### Repair
+
+A shared Supabase canonical routing layer now maps source taxonomy to the stable public retail groups:
+
+- Cameras
+- Lenses
+- Drones
+- Camera Accessories
+- Video Cameras
+- Lighting
+- Action Cameras
+- Video Production Equipment
+- Audio
+- Supports & Stabilisation
+- Drone Accessories
+- Power & Batteries
+- Studio Equipment
+- Other Equipment
+
+The underlying quote_catalog_products rows are not renamed or merged.
+
+New public RPC: public_storefront_categories('retail').
+
+The storefront now loads its category cards and category selector from that authoritative RPC instead of a hard-coded JavaScript list.
+
+### Data path
+
+Purchase catalogue product
+→ canonical_storefront_category(...)
+→ public_storefront_categories(...)
+→ Category card / filter
+→ public_storefront_category_manufacturers(...)
+→ manufacturer
+→ public_storefront_models(...)
+→ model
+→ public_storefront_stock(...)
+→ Published WEBSITE inventory listing.
+
+### Verification rule
+
+Every catalogue product must resolve to one canonical retail category. Every Sales-stage inventory asset must retain a valid catalog_product_id so its exact product identity survives the purchase → inventory → sales handoff.
