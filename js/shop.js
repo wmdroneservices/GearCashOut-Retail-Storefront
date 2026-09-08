@@ -5,7 +5,7 @@ import { imageFor } from "./category-heroes.js";
 const supabase=await createSupabaseClient();
 const params=new URLSearchParams(location.search);
 
-const CATALOGUE_CATEGORIES=["Cameras","Lenses","Drones","Camera Accessories","Video Cameras","Lighting","Action Cameras","Video Production Equipment","Audio","Supports & Stabilisation","Drone Accessories","Power & Batteries","Studio Equipment","Other Equipment"];
+let CATALOGUE_CATEGORIES=[];
 
 const state={
   category:params.get("category")||"",
@@ -54,6 +54,12 @@ function clearHero(){categoryHero.hidden=true;categoryHeroImage.removeAttribute(
 function populateCategorySelect(){
   categorySelect.innerHTML='<option value="">All categories</option>'+CATALOGUE_CATEGORIES.map(c=>'<option value="'+escapeHtml(c)+'">'+escapeHtml(c)+'</option>').join("");
   categorySelect.value=state.category;
+}
+
+async function loadCategories(){
+  const {data,error}=await supabase.rpc("public_storefront_categories",{p_store_key:STOREFRONT_KEY});
+  if(error) throw error;
+  CATALOGUE_CATEGORIES=(data||[]).map(row=>row.category).filter(Boolean);
 }
 
 async function loadManufacturers(){
@@ -211,6 +217,7 @@ searchInput.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout((
 document.querySelector("#clear-filters").addEventListener("click",()=>{state.category="";state.manufacturer="";state.model="";state.search="";navigate();});
 loadMoreButton.hidden=true;
 
+await loadCategories();
 await loadManufacturers();
 populateCategorySelect();
 searchInput.value=state.search;
