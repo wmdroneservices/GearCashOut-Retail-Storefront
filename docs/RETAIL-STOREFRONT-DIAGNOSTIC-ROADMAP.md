@@ -309,3 +309,42 @@ This queue is deliberately separate from `catalog_sales_content`, which is curre
 ## Image Research ownership correction — 7 September 2026
 
 The public Retail Storefront repository is website-only. Staff research tools belong in the Action-Buyer-UK staff system, specifically the Research & Pricing dashboard. The storefront may consume approved image data but must not host staff dashboards or staff research interfaces.
+
+
+---
+
+## Live stock card → product page and secure private-media bridge — 8 September 2026
+
+### First failure
+
+A real published DJI Osmo Action 6 listing reached the public stock grid but had no selected photograph displayed and the card could not be opened.
+
+Live inspection showed:
+
+- one Published WEBSITE listing;
+- one selected `inventory_sales_content.listing_photo_paths` entry;
+- the selected file existed in Storage;
+- `hero_image_url` was null;
+- the private `quote-photos` bucket correctly had `public=false`;
+- the stock card was an `article`, not a link.
+
+### Repair
+
+The stock card now:
+
+1. requests secure signed URLs from `public-listing-media`;
+2. displays the first selected listing photograph;
+3. links to `product.html?listing=<listing_id>`.
+
+The product page loads safe listing facts through `public_storefront_listing` and the full selected photograph gallery through the secure media function.
+
+### Security boundary
+
+The private customer-media bucket is not made public. The Edge Function checks that the exact listing remains Published on the active WEBSITE outlet and that the asset is not sold/archived before signing only the explicitly selected listing paths.
+
+### Failure checkpoints
+
+1. No photo: inspect `listing_photo_paths`, Storage object existence, then media function.
+2. Card not clickable: inspect `renderStock()` in `js/shop.js`.
+3. Detail unavailable: inspect listing ID and `public_storefront_listing`.
+4. Sold/unpublished item visible: inspect authoritative `resale_listings`/asset state before changing the public UI.
