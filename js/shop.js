@@ -190,7 +190,6 @@ async function renderSearch(){
     return '<article class="product-card">'+cardImage(id,state.manufacturer+" "+row.model,hero)+'<div class="product-meta">'+escapeHtml(row.main_category||row.category||"Catalogue")+'</div><h2>'+escapeHtml([row.manufacturer,row.model,row.package_name].filter(Boolean).join(" "))+'</h2><div class="availability '+(Number(row.available_units)>0?"available":"unavailable")+'">'+(Number(row.available_units)>0?"Available for sale":"Catalogue item")+'</div></article>';
   }).join("");
   summary.textContent=data.length+" matching catalogue products";
-  bindCardImages(jobs);
 }
 
 function render(){
