@@ -410,3 +410,48 @@ Purchase catalogue product
 ### Verification rule
 
 Every catalogue product must resolve to one canonical retail category. Every Sales-stage inventory asset must retain a valid catalog_product_id so its exact product identity survives the purchase → inventory → sales handoff.
+
+
+---
+
+## Account navigation fault and brand-test preparation — 10 September 2026
+
+### First failure
+
+The public Retail Storefront header displayed an **Account** button on the homepage, shop page and product page, but no event handler or link was attached to it. Clicking the control therefore produced no navigation.
+
+### Investigation
+
+The storefront repository currently contains the public catalogue, shop and product pages plus the shared Supabase client. It does not yet contain its own login/account pages. The central Action-Buyer-UK account flow already exists at `https://gearcashout.co.uk/account.html` and redirects unauthenticated visitors to the central login flow.
+
+### Minimal repair
+
+The three existing Account controls were changed from inert `<button>` elements to links to the central GearCashOut customer account:
+
+- `index.html`
+- `shop.html`
+- `product.html`
+
+No authentication architecture was duplicated in the retail repository. The shared customer identity remains centralised.
+
+### Brand testing
+
+The current **GearOutlet** identity remains explicitly temporary. The storefront visual system was built as a presentation layer so the final retail brand can be tested and changed without altering catalogue, inventory, Supabase or sales logic.
+
+Before a final redesign is locked, test candidate names against:
+
+1. clarity that the site sells used/specialist equipment;
+2. memorability and pronunciation;
+3. suitability across photography, drone, video and broader equipment categories;
+4. ability to support future specialist storefronts;
+5. domain/social availability;
+6. UK trademark/company-name conflicts before adoption.
+
+### Verification
+
+Browser verification required after deployment:
+
+1. Click Account from homepage, shop and product pages.
+2. Confirm it reaches the central account/login flow.
+3. Confirm catalogue and product-detail behaviour remains unchanged.
+4. Test candidate brand names before replacing the temporary GearOutlet artwork or committing to a domain.
