@@ -1,10 +1,21 @@
-# GearCashOut Retail Storefront
+# Gear1 Outpost Retail Storefront
 
 Dedicated public retail website for the GearCashOut multi-site platform.
 
+## Current Brand Test
+
+The active customer-facing test identity is **Gear1 Outpost**.
+
+- uses the existing GearCashOut four-point compass as the shared brand mark;
+- retail wordmark asset: `images/gear1-outpost-brand.svg`;
+- current strapline: **QUALITY GEAR. READY FOR MORE.**;
+- brand/domain remains subject to final testing and clearance.
+
+The previous GearOutlet identity is historical and should not be used for new customer-facing work.
+
 ## Current Stage
 
-Stage 1 foundation:
+Stage 1 foundation plus initial brand test:
 
 - separate public website repository;
 - shared Supabase platform backend;
@@ -34,13 +45,17 @@ The current project uses:
 
 No service-role credential is used in browser code.
 
+## Diagnostic Roadmaps
+
+- `docs/RETAIL-STOREFRONT-DIAGNOSTIC-ROADMAP.md` — catalogue, stock, imagery, product detail and authentication/navigation investigation.
+- `docs/DIAGNOSTIC-ROADMAPS/GEAR1-OUTPOST-BRAND-REDESIGN.md` — current brand test and visual redesign investigation.
+
 ## Next stages
 
-1. final brand/domain configuration;
-2. product detail pages;
-3. customer sign-in/account;
-4. live website inventory and checkout;
-5. order/fulfilment flow;
-6. specialist storefronts and future auction channel.
-
-See `docs/RETAIL-STOREFRONT-DIAGNOSTIC-ROADMAP.md`.
+1. browser-test the Gear1 Outpost identity and Account navigation;
+2. continue systematic storefront testing;
+3. final brand/domain configuration after testing and clearance;
+4. refine the visual redesign;
+5. live website inventory and checkout;
+6. order/fulfilment flow;
+7. specialist storefronts and future auction channel.
