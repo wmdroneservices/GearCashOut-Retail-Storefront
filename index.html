@@ -30,5 +30,17 @@
   </main>
   <footer class="site-footer"><div class="footer-brand brand-logo"><img src="images/gear1-outpost-brand.svg" alt="Gear1 Outpost"></div><div class="footer-note">Gear1 Outpost is the retail storefront for the connected GearCashOut platform.</div></footer>
   <script type="module" src="js/home.js?v=20260910-visibility-1"></script>
+  <script type="module">
+    import { createSupabaseClient } from "./js/supabase-client.js";
+    import { STOREFRONT_KEY } from "./js/config.js";
+    const supabase=await createSupabaseClient();
+    const descriptions={Cameras:"Mirrorless, DSLR and specialist imaging.",Lenses:"Photography and professional optics.",Drones:"Camera drones, FPV and aerial equipment.","Video Cameras":"Camcorders, cinema and professional video.","Action Cameras":"GoPro, DJI, Insta360 and more.","Camera Accessories":"Essential accessories and add-ons.",Lighting:"Continuous, studio and creative lighting.",Audio:"Microphones and professional audio equipment.","Supports & Stabilisation":"Tripods, gimbals and camera supports.","Video Production Equipment":"Monitors, recorders and production tools.","Drone Accessories":"Controllers, batteries, payloads and accessories.","Power & Batteries":"Power solutions and replacement batteries.","Studio Equipment":"Equipment for photography and video studios.","Other Equipment":"Additional specialist gear from the catalogue."};
+    const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+    try{
+      const {data,error}=await supabase.rpc("public_storefront_categories",{p_store_key:STOREFRONT_KEY});
+      if(error)throw error;
+      document.querySelector("#category-grid").innerHTML=(data||[]).map((row,i)=>{const c=row.category;return `<a class="catalogue-category-card" href="shop.html?category=${encodeURIComponent(c)}"><span>${String(i+1).padStart(2,"0")}</span><h3>${esc(c)}</h3><p>${esc(descriptions[c]||"Specialist equipment available through the live retail catalogue.")}</p><b>Browse ${esc(c)} →</b></a>`}).join("")||"<p>No retail categories are currently available.</p>";
+    }catch(error){console.error(error);document.querySelector("#category-grid").innerHTML="<p>Catalogue connection could not be loaded.</p>";}
+  </script>
 </body>
 </html>
